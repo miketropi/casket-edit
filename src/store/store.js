@@ -1,11 +1,21 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import planes from './planes';
+
+const rotationSetupInit = {
+  '__lid': [-1.57, 0, 0],           // lid
+  '__right': [0, 1.57, 0],          // right
+  '__left': [0, -1.57, 0],          // left
+  '__food': [0, 0, 0],              // food
+  '__head': [0, 0, 0],              // head
+}
 
 const defaultProps = {
   version: '1.0.0',
   name: 'Casket Edit',
   developMode: true,
-  planes: [],
+  rotationSetupInit,
+  planes
 }
 
 export const createAppStore = (initProps) => {
@@ -14,9 +24,12 @@ export const createAppStore = (initProps) => {
       return {
         ...initProps,
         ...defaultProps,
+        setPlanes: (planes) => {
+          set({ planes });
+        },
         addPlane: (plane) => {
           set((state) => {
-            const exists = state.planes.some(p => p.uuid === plane.uuid);
+            const exists = state.planes.some(p => p.name === plane.name);
             if (!exists) {
               state.planes.push(plane);
             }
