@@ -1,0 +1,10 @@
+.design-page {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+
+  .preview-area,
+  .control-area {
+    height: 100vh;
+    box-sizing: border-box;
+  }
+}
