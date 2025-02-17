@@ -45,7 +45,7 @@ const Accordion = ({ items }) => {
           >
             {item.title}
             <span className="accordion-icon">
-              {activeIndex === index ? <Minus /> : <Plus />}
+              {activeIndex === index ? <Minus size={16} /> : <Plus size={16} />}
             </span>
           </div>
           

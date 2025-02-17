@@ -1,0 +1,11 @@
+.plane-control-container {
+
+  .control-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    
+    &:not(:last-child) {
+      border-bottom: 1px solid #e6e6e6;
+    }
+  }
+}

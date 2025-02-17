@@ -1,18 +1,27 @@
+import * as THREE from "three";
 import { Decal, useTexture } from "@react-three/drei";
 
 export default function DecalPlane({ decalAtts, decalImage }) {
   const decalTexture = useTexture(decalImage);
-  console.log(decalTexture);
+  decalTexture.center.set(0.5,0.5);
+  decalTexture.flipY = false;
+  decalTexture.wrapS = THREE.RepeatWrapping;
+  decalTexture.wrapT = THREE.RepeatWrapping;
+
+  const imageRatio = decalTexture.image.width / decalTexture.image.height;
+  const baseSize = decalAtts?.scale;
+  const scale = [baseSize * imageRatio, baseSize, baseSize];
   
   return (
     <Decal 
       { ...decalAtts }
-      debug={ 1 }
+      scale={ scale }
+      // debug={ 1 }
     >
       <meshBasicMaterial
         map={ decalTexture }
         polygonOffset
-        polygonOffsetFactor={-1} // The material should take precedence over the original
+        polygonOffsetFactor={ -2 } // The material should take precedence over the original
       />
     </Decal>
   )

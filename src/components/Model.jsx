@@ -3,6 +3,7 @@ import { useGLTF, Decal, useTexture } from '@react-three/drei';
 import { useRef, useState, useEffect, Suspense } from "react";
 import { useAppStore } from '../context/AppContext';
 import DecalPlane from './DecalPlane';
+
 function Model(atts) {
   const { addPlane, planes, setPlanes, rotationSetupInit } = useAppStore();
   const { scene, nodes } = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
@@ -20,16 +21,16 @@ function Model(atts) {
         // child.userData.originalColor = child.material.color.getHex();
 
         let plane = planes.find(p => p.name == child.name);
-        
         if(plane) {
+
           decalElements.push(
             <mesh 
               key={ child.uuid } 
               { ...child } >
-              {/* <DecalPlane 
+              <DecalPlane 
                 decalAtts={ { ...plane } }
                 decalImage={ plane.decalImage }
-              /> */}
+              />
             </mesh>
           )
         }
@@ -47,9 +48,10 @@ function Model(atts) {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    const mesh = e.object;
+    
+    const mesh = e.object; 
     const { name, uuid } = mesh;
-    const position = mesh.geometry.boundingSphere.center;
+    const position = Object.values(mesh.geometry.boundingSphere.center);
     const scale = mesh.scale.x;
 
     let type = prompt('Please enter type of mesh...!');

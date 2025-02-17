@@ -1,0 +1,76 @@
+.input-range-container {
+
+  label {
+    display: block;
+    margin-bottom: .5em;
+  }
+  
+  .input-range-handle {
+    display: grid;
+    grid-template-columns: 1fr 60px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 4px;
+      background: #e6e6e6;
+      border-radius: 2px;
+      outline: none;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #111;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background .2s ease;
+
+        &:hover {
+          background: #333;
+        }
+      }
+
+      &::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        background: #111;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background .2s ease;
+
+        &:hover {
+          background: #333;
+        }
+      }
+    }
+
+    input[type="number"] {
+      padding: .5em;
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: inherit;
+      text-align: right;
+      
+      &:focus {
+        outline: none;
+        border-color: #333;
+      }
+      
+      /* Hide spinner buttons */
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
+    }
+  } 
+}

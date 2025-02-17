@@ -35,9 +35,15 @@ export const createAppStore = (initProps) => {
             }
           });
         },
-        removePlane: (planeID) => {
+        removePlane: (planeName) => {
           set((state) => {
-            state.planes = state.planes.filter((p) => p.uuid !== planeID);
+            state.planes = state.planes.filter((p) => p.name !== planeName);
+          });
+        },
+        updatePlane: (planeName, updatedPlane) => {
+          set((state) => {
+            const index = state.planes.findIndex((p) => p.name === planeName);
+            state.planes[index] = updatedPlane;
           });
         },
       }

@@ -1,10 +1,31 @@
 .design-page {
-  display: grid;
-  grid-template-columns: 1fr 380px;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #f0f0f0;
 
-  .preview-area,
+  .preview-area {
+    width: calc(100% - 300px);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .control-area {
-    height: 100vh;
+    position: fixed;
+    padding: 1em;
+    right: 0;
+    top: 0;
+    height: 100%;
     box-sizing: border-box;
+
+    .control-area-inner {
+      width: 300px;
+      position: relative;
+      height: 100%;
+      background: white;
+      border-radius: 10px;
+      border: solid 1px #e4e4e4;
+    }
   }
 }
