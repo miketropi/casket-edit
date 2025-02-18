@@ -93,7 +93,6 @@ const Modal = ({ isOpen, onClose, children, title }) => {
           max-height: 90vh;
           overflow-y: auto;
           position: relative;
-          font-family: "Josefin Sans", serif;
         }
 
         .modal-header {

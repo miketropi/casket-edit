@@ -58,7 +58,6 @@ const Popover = ({ isOpen, onClose, children, trigger, position = 'bottom' }) =>
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
           z-index: 1000;
           min-width: 200px;
-          font-family: "Josefin Sans", serif;
         }
 
         .popover.top {

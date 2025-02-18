@@ -1,6 +1,6 @@
 import { Image, Group } from 'react-konva';
 
-export default function KonvaImageElement({ element, onDragMove, onHandleTransform, onSelect }) {
+export default function KonvaImageElement({ element, onDragMove, onHandleTransform, onSelect, isSelected }) {
   const imageObj = new window.Image();
   imageObj.src = element.src;
 

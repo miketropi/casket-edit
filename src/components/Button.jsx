@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
  * @param {Object} props
  * @param {ReactNode} props.children - Button content
  * @param {ReactNode} props.icon - Optional icon element to display
- * @param {string} props.variant - Button style variant ('primary', 'secondary', 'text')
+ * @param {string} props.variant - Button style variant ('primary', 'secondary', 'text', 'danger')
  * @param {string} props.size - Button size ('small', 'medium', 'large') 
  * @param {boolean} props.fullWidth - Whether button should take full width
  * @param {boolean} props.disabled - Whether button is disabled
@@ -57,7 +57,6 @@ const Button = forwardRef(({
           gap: 0.5em;
           border: none;
           border-radius: 4px;
-          font-family: "Josefin Sans", serif;
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
@@ -89,6 +88,15 @@ const Button = forwardRef(({
 
         .button.secondary:hover:not(:disabled) {
           background: #545b62;
+        }
+
+        .button.danger {
+          background: #dc3545;
+          color: white;
+        }
+
+        .button.danger:hover:not(:disabled) {
+          background: #c82333;
         }
 
         .button.text {

@@ -1,6 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Rect, Text, Group, Image, Transformer } from 'react-konva';
 import DesignImageToolBar from './DesignImageToolBar';
+import KonvaImageElement from './KonvaImageElement';
+import KonvaTextElement from './KonvaTextElement';
+import { TrashIcon } from 'lucide-react';
+import Button from './Button';
+import GoogleFontSelect from './fields/GoogleFontSelect';
+import ColorPicker from './fields/ColorPicker';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function DesignImage({ plane, onUseDesign }) {
   const refContainer = useRef(null);
@@ -36,6 +43,7 @@ export default function DesignImage({ plane, onUseDesign }) {
 
   const handleAddElement = (element) => {
     const newElement = {
+      id: uuidv4(),
       ...element,
       x: dimensions.width / 2,
       y: dimensions.height / 2,
@@ -100,7 +108,10 @@ export default function DesignImage({ plane, onUseDesign }) {
       type: 'text',
       text: text,
       fontSize: 20,
-      fill: '#000000'
+      fill: '#000000',
+      fontFamily: 'Roboto',
+      align: 'center',
+      lineHeight: 1.2,
     });
   };
 
@@ -131,55 +142,41 @@ export default function DesignImage({ plane, onUseDesign }) {
       height: node.height() * scaleY
     };
 
+    // console.log(elements[index])
+
+    if(elements[index].type === 'text') {
+      elements[index].fontSize = elements[index].fontSize * scaleY;
+    }
+
     setLayoutData({ ...layoutData, elements });
   };
 
   const renderElement = (element, index) => {
     switch(element.type) {
       case 'image':
-        const imageObj = new window.Image();
-        imageObj.src = element.src;
-        return (
-          <Group 
-            key={index}
-            id={`element-${index}`}
-            draggable
-            onDragMove={(e) => handleDragMove(e, index)}
-            onTransformEnd={(e) => handleTransform(e, index)}
-            x={element.x}
-            y={element.y}
-            width={element.width}
-            height={element.height}
-            onClick={() => setSelectedId(`element-${index}`)}
-          >
-            <Image
-              image={imageObj}
-              width={element.width}
-              height={element.height}
-            />
-          </Group>
-        );
+
+        return <KonvaImageElement
+          key={element.id}
+          element={element}
+          onDragMove={ (e) => handleDragMove(e, index) }
+          onHandleTransform={ (e) => handleTransform(e, index) }
+          onSelect={ (id) => setSelectedId(id) }
+          isSelected={selectedId === `element-${element.id}`}
+        />
       case 'text':
-        return (
-          <Group 
-            key={index}
-            id={`element-${index}`}
-            draggable
-            onDragMove={(e) => handleDragMove(e, index)}
-            onTransformEnd={(e) => handleTransform(e, index)}
-            x={element.x}
-            y={element.y}
-            width={element?.width || undefined}
-            height={element?.height || undefined}
-            onClick={() => setSelectedId(`element-${index}`)}
-          >
-            <Text
-              text={element.text}
-              fontSize={element.fontSize}
-              fill={element.fill}
-            />
-          </Group>
-        );
+        return <KonvaTextElement
+          key={element.id}
+          element={element}
+          onDragMove={ (e) => handleDragMove(e, index) }
+          onHandleTransform={ (e) => handleTransform(e, index) }
+          onSelect={ (id) => setSelectedId(id) }
+          isSelected={selectedId === `element-${element.id}`}
+          onUpdateText={ (text) => {
+            const elements = [...layoutData.elements];
+            elements[index].text = text;
+            setLayoutData({ ...layoutData, elements });
+          }}
+        />
       default:
         return null;
     }
@@ -193,7 +190,46 @@ export default function DesignImage({ plane, onUseDesign }) {
       onAddTextElement={ () => {
         onAddTextElement("Select to edit your text");
       } }
-     />
+    >
+      {
+        selectedId && <>
+          {
+            (() => {
+              let editId = selectedId.replace('element-', '');
+              let element = layoutData.elements.find(e => e.id === editId);
+              if(element?.type && element.type === 'text') {
+                return <>
+                  <div className="design-image-tool-bar-item">
+                    <GoogleFontSelect value={element.fontFamily} onChange={(font) => {
+                      element.fontFamily = font;
+                      setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
+                    }} />
+                  </div>
+                  <div className="design-image-tool-bar-item">
+                    <ColorPicker value={element.fill} onChange={(color) => {
+                      element.fill = color;
+                      setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
+                    }} />
+                  </div>
+                </>
+              }
+            })()
+          }
+
+          <div className="design-image-tool-bar-item">
+            <Button variant="danger" icon={<TrashIcon size={16} />} onClick={() => {
+              let r = confirm("Are you sure you want to delete this element?");
+              if(r == false) return;
+
+              const elements = [...layoutData.elements];
+              elements.splice(selectedId, 1);
+              setLayoutData({ ...layoutData, elements });
+              setSelectedId(null);
+            }}>Delete</Button>
+          </div>
+        </>
+      }
+    </DesignImageToolBar>
     <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '700px' }}>
       <Stage 
         width={dimensions.width} 
@@ -213,7 +249,10 @@ export default function DesignImage({ plane, onUseDesign }) {
         </Layer>
         <Layer>
           {layoutData.elements.map((element, index) => renderElement(element, index))}
-          <Transformer ref={transformerRef} />
+          <Transformer 
+            ref={transformerRef} 
+            enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+          />
         </Layer>
       </Stage>
     </div>
