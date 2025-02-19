@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
  * A flexible button component that supports icons and various styles.
  *
  * @param {Object} props
+ * @param {string} props.className - Additional CSS class name
  * @param {ReactNode} props.children - Button content
  * @param {ReactNode} props.icon - Optional icon element to display
  * @param {string} props.variant - Button style variant ('primary', 'secondary', 'text', 'danger')
@@ -15,6 +16,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
  * @param {boolean|string} props.disclosure - Show disclosure icon ('up', 'down', 'left', 'right', or boolean)
  */
 const Button = forwardRef(({
+  className,
   children,
   icon,
   variant = 'primary',
@@ -40,7 +42,7 @@ const Button = forwardRef(({
   return (
     <button
       ref={ref}
-      className={`button ${variant} ${size} ${fullWidth ? 'full-width' : ''}`}
+      className={`${ className } button ${variant} ${size} ${fullWidth ? 'full-width' : ''}`}
       disabled={disabled}
       onClick={onClick}
       {...props}
@@ -60,6 +62,8 @@ const Button = forwardRef(({
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s ease;
+          white-space: nowrap;
+          min-height: 32px;
         }
 
         .button:disabled {

@@ -77,6 +77,7 @@ const ColorPicker = ({ value, onChange }) => {
           border-radius: 2px;
           border: 1px solid #e0e0e0;
           margin-right: 8px;
+          border-radius: 20px;
         }
 
         .color-dropdown {

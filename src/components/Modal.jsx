@@ -88,7 +88,7 @@ const Modal = ({ isOpen, onClose, children, title }) => {
         .modal {
           background: white;
           border-radius: 4px;
-          max-width: 860px;
+          max-width: 960px;
           width: 90%;
           max-height: 90vh;
           overflow-y: auto;

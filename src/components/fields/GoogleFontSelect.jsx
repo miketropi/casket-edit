@@ -29,7 +29,7 @@ const GoogleFontSelect = ({ value, onChange }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="field-prefix">Font:</div>
-        <span style={{ fontFamily: value }}>{value || 'Select a font'}</span>
+        <span className="select-trigger-text" style={{ fontFamily: value }}>{value || 'Select a font'}</span>
         <ChevronDown size={16} />
       </div>
 
@@ -75,6 +75,14 @@ const GoogleFontSelect = ({ value, onChange }) => {
           border-radius: 4px;
           cursor: pointer;
           background: white;
+        }
+
+        .select-trigger-text {
+          max-width: 90px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .field-prefix {

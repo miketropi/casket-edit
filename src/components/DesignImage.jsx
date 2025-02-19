@@ -3,17 +3,20 @@ import { Stage, Layer, Rect, Text, Group, Image, Transformer } from 'react-konva
 import DesignImageToolBar from './DesignImageToolBar';
 import KonvaImageElement from './KonvaImageElement';
 import KonvaTextElement from './KonvaTextElement';
-import { TrashIcon } from 'lucide-react';
+import { TrashIcon, Pencil } from 'lucide-react';
 import Button from './Button';
 import GoogleFontSelect from './fields/GoogleFontSelect';
 import ColorPicker from './fields/ColorPicker';
+import FontSize from './fields/FontSize';
 import { v4 as uuidv4 } from 'uuid';
+import Popover from './Popover';
 
 export default function DesignImage({ plane, onUseDesign }) {
   const refContainer = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [selectedId, setSelectedId] = useState(null);
   const transformerRef = useRef(null);
+  const [isOpenEditText, setIsOpenEditText] = useState(false);
   const [layoutData, setLayoutData] = useState({
     elements: []
   });
@@ -33,6 +36,7 @@ export default function DesignImage({ plane, onUseDesign }) {
     if (selectedId !== null && transformerRef.current) {
       const stage = transformerRef.current.getStage();
       const selectedNode = stage.findOne('#' + selectedId);
+      console.log('selectedNode', stage, selectedNode, selectedId);
       if (selectedNode) {
         transformerRef.current.nodes([selectedNode]);
       }
@@ -129,13 +133,17 @@ export default function DesignImage({ plane, onUseDesign }) {
     const node = e.target;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
-
+    console.log(node);
     node.scaleX(1);
     node.scaleY(1);
 
     const elements = [...layoutData.elements];
+    console.log(elements[index]);
     elements[index] = {
       ...elements[index],
+      // rotation: node.rotation(),
+      // scaleX: 1,
+      // scaleY: 1,
       x: node.x(),
       y: node.y(),
       width: node.width() * scaleX,
@@ -145,7 +153,7 @@ export default function DesignImage({ plane, onUseDesign }) {
     // console.log(elements[index])
 
     if(elements[index].type === 'text') {
-      elements[index].fontSize = elements[index].fontSize * scaleY;
+      // elements[index].fontSize = elements[index].fontSize * scaleY;
     }
 
     setLayoutData({ ...layoutData, elements });
@@ -154,7 +162,6 @@ export default function DesignImage({ plane, onUseDesign }) {
   const renderElement = (element, index) => {
     switch(element.type) {
       case 'image':
-
         return <KonvaImageElement
           key={element.id}
           element={element}
@@ -171,24 +178,27 @@ export default function DesignImage({ plane, onUseDesign }) {
           onHandleTransform={ (e) => handleTransform(e, index) }
           onSelect={ (id) => setSelectedId(id) }
           isSelected={selectedId === `element-${element.id}`}
-          onUpdateText={ (text) => {
-            const elements = [...layoutData.elements];
-            elements[index].text = text;
-            setLayoutData({ ...layoutData, elements });
-          }}
         />
       default:
         return null;
     }
   };
 
+  const editTrigger = (
+    <Button variant="primary" icon={<Pencil size={16} />} onClick={() => { setIsOpenEditText(!isOpenEditText) }}>Edit Text</Button>
+  )
+
   return <div className="design-image-container">
     <DesignImageToolBar
+      elements={ layoutData.elements }
       onUploadImage={ (file) => {
         onAddImageElement(file);
       }}
       onAddTextElement={ () => {
         onAddTextElement("Select to edit your text");
+      } }
+      onOrderingChange={ (newItems) => {
+        setLayoutData({ ...layoutData, elements: newItems });
       } }
     >
       {
@@ -200,8 +210,36 @@ export default function DesignImage({ plane, onUseDesign }) {
               if(element?.type && element.type === 'text') {
                 return <>
                   <div className="design-image-tool-bar-item">
+                    <Popover
+                      trigger={ editTrigger }
+                      isOpen={ isOpenEditText }
+                      onClose={() => { setIsOpenEditText(false) }}
+                    >
+                      <div>
+                        <label>Text</label>
+                        <textarea
+                          className="textarea-field"
+                          style={{ width: '280px', height: '100px' }}
+                          value={element.text}
+                          onChange={ e => {
+                            const elements = [...layoutData.elements];
+                            let index = elements.findIndex(e => e.id === editId);
+                            elements[index].text = e.target.value;
+                            setLayoutData({ ...layoutData, elements });
+                          } }
+                        />
+                      </div>
+                    </Popover>
+                  </div>
+                  <div className="design-image-tool-bar-item">
                     <GoogleFontSelect value={element.fontFamily} onChange={(font) => {
                       element.fontFamily = font;
+                      setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
+                    }} />
+                  </div>
+                  <div className="design-image-tool-bar-item">
+                    <FontSize value={element.fontSize} onChange={(fontSize) => {
+                      element.fontSize = fontSize;
                       setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
                     }} />
                   </div>
@@ -225,19 +263,23 @@ export default function DesignImage({ plane, onUseDesign }) {
               elements.splice(selectedId, 1);
               setLayoutData({ ...layoutData, elements });
               setSelectedId(null);
-            }}>Delete</Button>
+            }}></Button>
           </div>
         </>
       }
     </DesignImageToolBar>
-    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '700px' }}>
+    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '700px', border: '1px solid #e0e0e0' }}>
       <Stage 
-        width={dimensions.width} 
-        height={dimensions.height}
+        width={ refContainer?.current?.offsetWidth }
+        height={ refContainer?.current?.offsetHeight }
         onClick={(e) => {
-          if (e.target === e.target.getStage()) {
+          if(!e.target.attrs?.type) {
             setSelectedId(null);
           }
+          
+          // if (e.target === e.target.getStage()) {
+          //   setSelectedId(null);
+          // }
         }}
       >
         <Layer>
@@ -251,11 +293,18 @@ export default function DesignImage({ plane, onUseDesign }) {
           {layoutData.elements.map((element, index) => renderElement(element, index))}
           <Transformer 
             ref={transformerRef} 
-            enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+            // enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+            boundBoxFunc={(oldBox, newBox) => {
+              // Limit minimum size
+              if (newBox.width < 20 || newBox.height < 20) {
+                return oldBox;
+              }
+              return newBox;
+            }}
           />
         </Layer>
       </Stage>
     </div>
-    {JSON.stringify(layoutData)}
+    { console.log(layoutData) }
   </div>;
 }

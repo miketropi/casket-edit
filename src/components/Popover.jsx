@@ -8,7 +8,7 @@ import { useRef, useEffect } from 'react';
  * @param {function} props.onClose - Callback function to close the popover
  * @param {ReactNode} props.children - Content to be rendered inside the popover
  * @param {ReactNode} props.trigger - Element that triggers the popover
- * @param {string} props.position - Position of popover relative to trigger ('top', 'bottom', 'left', 'right')
+ * @param {string} props.position - Position of popover relative to trigger ('top', 'bottom', 'left', 'right', 'bottom-left', 'bottom-right')
  */
 const Popover = ({ isOpen, onClose, children, trigger, position = 'bottom' }) => {
   const popoverRef = useRef(null);
@@ -70,6 +70,16 @@ const Popover = ({ isOpen, onClose, children, trigger, position = 'bottom' }) =>
           top: calc(100% + 8px);
           left: 50%;
           transform: translateX(-50%);
+        }
+
+        .popover.bottom-left {
+          top: calc(100% + 8px);
+          left: 0;
+        }
+
+        .popover.bottom-right {
+          top: calc(100% + 8px);
+          right: 0;
         }
 
         .popover.left {
