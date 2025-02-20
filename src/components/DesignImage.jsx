@@ -10,8 +10,12 @@ import ColorPicker from './fields/ColorPicker';
 import FontSize from './fields/FontSize';
 import { v4 as uuidv4 } from 'uuid';
 import Popover from './Popover';
+import { useAppStore } from '../context/AppContext';
 
 export default function DesignImage({ plane, onUseDesign }) {
+  const { setEditElement, setDesignImageFn__Ref } = useAppStore();
+  const fnRef = useRef(null);
+  const designLayerRef = useRef(null);
   const refContainer = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [selectedId, setSelectedId] = useState(null);
@@ -30,7 +34,23 @@ export default function DesignImage({ plane, onUseDesign }) {
     }
 
     setLayoutData({ ...layoutData, elements: plane.elements ? plane.elements : [] })
+
+    fnRef.current = {
+      exportImage: () => {
+        const image = designLayerRef.current.toDataURL({ pixelRatio: 2, type: 'image/png' });
+        return image;
+      }
+    }
+
+    setDesignImageFn__Ref(fnRef.current);
+    return () => {
+      setDesignImageFn__Ref(null);
+    }
   }, []);
+
+  useEffect(() => {
+    setEditElement(layoutData.elements);
+  }, [layoutData.elements]);
 
   useEffect(() => {
     if (selectedId !== null && transformerRef.current) {
@@ -141,7 +161,7 @@ export default function DesignImage({ plane, onUseDesign }) {
     console.log(elements[index]);
     elements[index] = {
       ...elements[index],
-      // rotation: node.rotation(),
+      rotation: node.rotation(),
       // scaleX: 1,
       // scaleY: 1,
       x: node.x(),
@@ -268,7 +288,7 @@ export default function DesignImage({ plane, onUseDesign }) {
         </>
       }
     </DesignImageToolBar>
-    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '700px', border: '1px solid #e0e0e0' }}>
+    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '560px', border: '1px solid #e0e0e0' }}>
       <Stage 
         width={ refContainer?.current?.offsetWidth }
         height={ refContainer?.current?.offsetHeight }
@@ -289,7 +309,7 @@ export default function DesignImage({ plane, onUseDesign }) {
             fill="#fafafa"
           />
         </Layer>
-        <Layer>
+        <Layer ref={designLayerRef}>
           {layoutData.elements.map((element, index) => renderElement(element, index))}
           <Transformer 
             ref={transformerRef} 

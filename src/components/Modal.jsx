@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-
+import { Fragment } from 'react';
+import Tooltip from './Tooltip';
 /**
  * Modal Component
  * 
@@ -10,7 +11,7 @@ import { useEffect, useRef } from 'react';
  * @param {function} props.onClose - Callback function to close the modal
  * @param {ReactNode} props.children - Content to be rendered inside the modal
  * @param {string} props.title - Title text shown in the modal header
- * 
+ * @param {ReactNode} props.actions - Actions to be rendered in the modal
  * @example
  * // Basic usage
  * <Modal 
@@ -28,7 +29,7 @@ import { useEffect, useRef } from 'react';
  * - Fully customizable content
  */
 
-const Modal = ({ isOpen, onClose, children, title }) => {
+const Modal = ({ isOpen, onClose, children, title, actions }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -64,7 +65,19 @@ const Modal = ({ isOpen, onClose, children, title }) => {
       <div className="modal" ref={modalRef}>
         <div className="modal-header">
           <h2>{title}</h2>
-          <button className="close-button" onClick={onClose}>×</button>
+          {
+            actions && (actions.length > 0) &&
+            <div className="modal-actions">
+              {
+                actions.length && actions.map((action, index) => {
+                  return <Fragment key={index}>{action}</Fragment>;
+                })
+              }
+            </div>
+          }
+          <Tooltip text="Close" position="top">
+            <button className="close-button" onClick={onClose}>×</button>
+          </Tooltip>
         </div>
         <div className="modal-content">
           {children}
@@ -101,6 +114,15 @@ const Modal = ({ isOpen, onClose, children, title }) => {
           align-items: center;
           padding: 1em;
           border-bottom: 1px solid #e6e6e6;
+        }
+
+        .modal-header .modal-actions {
+          display: flex;
+          gap: 1em;
+          margin-right: 1em;
+          margin-left: auto;
+          padding-right: 1em;
+          margin-right: 1em;
         }
 
         .modal-header h2 {

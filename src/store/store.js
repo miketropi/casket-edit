@@ -15,7 +15,9 @@ const defaultProps = {
   name: 'Casket Edit',
   developMode: true,
   rotationSetupInit,
-  planes
+  planes,
+  editElement: [],
+  designImageFn__Ref: null,
 }
 
 export const createAppStore = (initProps) => {
@@ -45,6 +47,20 @@ export const createAppStore = (initProps) => {
             const index = state.planes.findIndex((p) => p.name === planeName);
             state.planes[index] = updatedPlane;
           });
+        },
+        setEditElement: (editElement) => {
+          set({ editElement });
+        },
+        setElementsToPlane: (planeName, elements) => {
+          set((state) => {
+            const index = state.planes.findIndex((p) => p.name === planeName);
+            if (index !== -1) {
+              state.planes[index].elements = elements;
+            }
+          });
+        },
+        setDesignImageFn__Ref: (designImageFn__Ref) => {
+          set({ designImageFn__Ref });
         },
       }
     })

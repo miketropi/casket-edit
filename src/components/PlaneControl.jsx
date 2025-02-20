@@ -3,23 +3,22 @@ import InputRange from './fields/InputRange';
 import Modal from './Modal';
 import Popover from './Popover';
 import Button from './Button';
-import { PaintbrushVertical, Wand } from 'lucide-react'; 
+import { PaintbrushVertical, Wand, SquareMousePointer } from 'lucide-react'; 
 import DesignImage from './DesignImage';
+import { useAppStore } from '../context/AppContext';
+
+
 export default function PlaneControl({ plane, onUpdate }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { editElement, designImageFn__Ref, setElementsToPlane } = useAppStore();
+
+  const onUseDesign = () => {
+    setElementsToPlane(plane.name, editElement);
+    const image = designImageFn__Ref.exportImage();
+  }
 
   return <div className="plane-control-container">
-    {/* <div className="control-item">
-      <Popover
-        isOpen={isPopoverOpen}
-        onClose={() => setIsPopoverOpen(false)}
-        trigger={<Button icon={<Wand size={16} />} disclosure fullWidth onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Select Your Image</Button>}
-      >
-        <Button fullWidth icon={<PaintbrushVertical size={16} />} onClick={() => setIsModalOpen(true)}>Design Your Image</Button>
-      </Popover>
-    </div> */}
-
     <div className="control-item">
       <Button fullWidth icon={<PaintbrushVertical size={16} />} onClick={() => setIsModalOpen(true)}>Design Your Image</Button>
     </div>
@@ -28,11 +27,18 @@ export default function PlaneControl({ plane, onUpdate }) {
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
       title="Design Your Image"
+      actions={
+        [
+          <Button icon={<SquareMousePointer size={16} />} variant="secondary" onClick={ onUseDesign }>Use Design</Button>
+        ]
+      }
     >
       <DesignImage plane={ plane } onUseDesign={ image => {
         console.log(image);
       } } />
     </Modal>
+
+    { JSON.stringify(editElement) }
 
     {/* { JSON.stringify(plane) } */}
     <div className="control-item">

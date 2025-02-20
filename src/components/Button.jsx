@@ -86,12 +86,12 @@ const Button = forwardRef(({
         }
 
         .button.secondary {
-          background: #6c757d;
+          background: #6366f1;
           color: white;
         }
 
         .button.secondary:hover:not(:disabled) {
-          background: #545b62;
+          background: #4f46e5;
         }
 
         .button.danger {
