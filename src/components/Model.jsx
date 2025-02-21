@@ -27,10 +27,12 @@ function Model(atts) {
             <mesh 
               key={ child.uuid } 
               { ...child } >
-              <DecalPlane 
-                decalAtts={ { ...plane } }
-                decalImage={ plane.decalImage }
-              />
+              {
+                plane.decalImage && <DecalPlane 
+                  decalAtts={ { ...plane } }
+                  decalImage={ plane.decalImage }
+                />
+              }
             </mesh>
           )
         }

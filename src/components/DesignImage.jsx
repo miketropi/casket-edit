@@ -11,15 +11,15 @@ import FontSize from './fields/FontSize';
 import { v4 as uuidv4 } from 'uuid';
 import Popover from './Popover';
 import { useAppStore } from '../context/AppContext';
-
-export default function DesignImage({ plane, onUseDesign }) {
+import WebFont from 'webfontloader';
+export default function DesignImage({ plane }) {
   const { setEditElement, setDesignImageFn__Ref } = useAppStore();
   const fnRef = useRef(null);
   const designLayerRef = useRef(null);
   const refContainer = useRef(null);
+  const transformerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [selectedId, setSelectedId] = useState(null);
-  const transformerRef = useRef(null);
   const [isOpenEditText, setIsOpenEditText] = useState(false);
   const [layoutData, setLayoutData] = useState({
     elements: []
@@ -37,9 +37,9 @@ export default function DesignImage({ plane, onUseDesign }) {
 
     fnRef.current = {
       exportImage: () => {
-        const image = designLayerRef.current.toDataURL({ pixelRatio: 2, type: 'image/png' });
+        const image = designLayerRef.current.toDataURL({ pixelRatio: 2, type: 'image/jpeg' });
         return image;
-      }
+      },
     }
 
     setDesignImageFn__Ref(fnRef.current);
@@ -253,8 +253,18 @@ export default function DesignImage({ plane, onUseDesign }) {
                   </div>
                   <div className="design-image-tool-bar-item">
                     <GoogleFontSelect value={element.fontFamily} onChange={(font) => {
-                      element.fontFamily = font;
-                      setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
+                      WebFont.load({
+                        google: {
+                          families: [font]
+                        },
+                        active: function() {
+                          element.fontFamily = font;
+                          setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
+                        }
+                      });
+
+                      // element.fontFamily = font;
+                      // setLayoutData({...layoutData, elements: [...layoutData.elements]}); 
                     }} />
                   </div>
                   <div className="design-image-tool-bar-item">
@@ -302,14 +312,19 @@ export default function DesignImage({ plane, onUseDesign }) {
           // }
         }}
       >
-        <Layer>
+        {/* <Layer>
           <Rect
             width={dimensions.width}
             height={dimensions.height}
             fill="#fafafa"
           />
-        </Layer>
+        </Layer> */}
         <Layer ref={designLayerRef}>
+          <Rect
+            width={dimensions.width}
+            height={dimensions.height}
+            fill="#fafafa"
+          />
           {layoutData.elements.map((element, index) => renderElement(element, index))}
           <Transformer 
             ref={transformerRef} 

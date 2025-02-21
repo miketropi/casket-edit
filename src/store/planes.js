@@ -8,12 +8,12 @@ const planes = [
       0.8042600154876709
     ],
     "rotation": [
-      -1.57,
+      1.57,
       0,
       0
     ],
     "scale": 1.25,
-    "decalImage": "/decal.jpg"
+    "decalImage": ""
   },
   {
     "label": "Right",
@@ -29,7 +29,7 @@ const planes = [
       0
     ],
     "scale": 1.25,
-    "decalImage": "/decal.jpg"
+    "decalImage": ""
   },
   {
     "label": "Left",
@@ -45,7 +45,7 @@ const planes = [
       0
     ],
     "scale": 1.25,
-    "decalImage": "/decal.jpg"
+    "decalImage": ""
   },
   {
     "label": "Bottom",
@@ -61,7 +61,7 @@ const planes = [
       0
     ],
     "scale": 1.25,
-    "decalImage": "/decal.jpg"
+    "decalImage": ""
   },
   {
     "label": "Top",
@@ -77,7 +77,7 @@ const planes = [
       0
     ],
     "scale": 1.25,
-    "decalImage": "/decal.jpg"
+    "decalImage": ""
   }
 ]
 
