@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import planes from './planes';
+import api from '../lib/api';
+
+const apiInstance = new api();
 
 const rotationSetupInit = {
   '__lid': [-1.57, 0, 0],           // lid
@@ -62,6 +65,11 @@ export const createAppStore = (initProps) => {
         setDesignImageFn__Ref: (designImageFn__Ref) => {
           set({ designImageFn__Ref });
         },
+        onSaveDesign: async () => {
+          let dataSave = get().planes;
+          const response = await apiInstance.saveDesign(dataSave);
+          console.log('response', response);
+        }
       }
     })
   )

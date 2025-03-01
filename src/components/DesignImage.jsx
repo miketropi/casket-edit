@@ -56,7 +56,7 @@ export default function DesignImage({ plane }) {
     if (selectedId !== null && transformerRef.current) {
       const stage = transformerRef.current.getStage();
       const selectedNode = stage.findOne('#' + selectedId);
-      console.log('selectedNode', stage, selectedNode, selectedId);
+      // console.log('selectedNode', stage, selectedNode, selectedId);
       if (selectedNode) {
         transformerRef.current.nodes([selectedNode]);
       }
@@ -153,12 +153,12 @@ export default function DesignImage({ plane }) {
     const node = e.target;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
-    console.log(node);
+    // console.log(node);
     node.scaleX(1);
     node.scaleY(1);
 
     const elements = [...layoutData.elements];
-    console.log(elements[index]);
+    // console.log(elements[index]);
     elements[index] = {
       ...elements[index],
       rotation: node.rotation(),
@@ -340,6 +340,6 @@ export default function DesignImage({ plane }) {
         </Layer>
       </Stage>
     </div>
-    { console.log(layoutData) }
+    {/* { console.log(layoutData) } */}
   </div>;
 }

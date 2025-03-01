@@ -1,13 +1,28 @@
 import { useRef, useState } from 'react';
 import { Upload as UploadIcon } from 'lucide-react';
 import Button from '../Button';
+import { useAppStore } from '../../context/AppContext';
 
 export default function Upload({ onUpload, label = 'Add Image' }) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef(null);
-  
+  const api = useAppStore(state => state.api);
+
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
+
+    // api.uploadImage(file).then(res => {
+    //   console.log(res);
+    //   if(res?.url) {
+    //     let __url = `${ import.meta.env.VITE_API_ENDPOINT }/?image_source=${ res.url }`;
+    //     onUpload(__url);
+    //   } else {
+    //     console.error('Error uploading image', res);
+    //     alert('Error uploading image, please try again!!!'); 
+    //   }
+    // });
+    // return;
+
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {

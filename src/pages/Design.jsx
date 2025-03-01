@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppStore } from '../context/AppContext.jsx';
 import CanvasPreview from '../components/CanvasPreview';
 import Accordion from '../components/Accordion';
@@ -6,7 +6,8 @@ import PlaneControl from '../components/PlaneControl';
 import Button from '../components/Button';
 
 export default function Design() {
-  const { version, planes, updatePlane } = useAppStore();
+  const { version, planes, updatePlane, onSaveDesign } = useAppStore();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log(version);
@@ -18,6 +19,13 @@ export default function Design() {
       updatePlane(plane.name, updatedPlane); 
     } } />
    }));
+
+  const __onSaveDesign = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    await onSaveDesign();
+    setLoading(false);
+  }
 
   return <div className="design-page">
     <div className="preview-area">
@@ -41,6 +49,13 @@ export default function Design() {
           </Button> */}
         </div>
         <Accordion items={ AccordionItems } />
+        
+        <div style={{ padding: '1rem', marginTop: '1rem' }}>
+         <Button 
+          loading={ loading } 
+          fullWidth size="large" 
+          onClick={ __onSaveDesign }>Save This Design</Button>
+        </div>
       </div>
     </div>
   </div>

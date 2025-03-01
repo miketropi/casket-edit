@@ -14,6 +14,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
  * @param {boolean} props.disabled - Whether button is disabled
  * @param {function} props.onClick - Click handler
  * @param {boolean|string} props.disclosure - Show disclosure icon ('up', 'down', 'left', 'right', or boolean)
+ * @param {boolean} props.loading - Whether button is in loading state
  */
 const Button = forwardRef(({
   className,
@@ -24,6 +25,7 @@ const Button = forwardRef(({
   fullWidth = false,
   disabled = false,
   disclosure = false,
+  loading = false,
   onClick,
   ...props
 }, ref) => {
@@ -43,13 +45,19 @@ const Button = forwardRef(({
     <button
       ref={ref}
       className={`${ className } button ${variant} ${size} ${fullWidth ? 'full-width' : ''}`}
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={onClick}
       {...props}
     >
-      {icon && <span className="icon">{icon}</span>}
-      {children}
-      {disclosure && <span className="disclosure-icon">{getDisclosureIcon()}</span>}
+      {loading ? (
+        <span className="spinner"></span>
+      ) : (
+        <>
+          {icon && <span className="icon">{icon}</span>}
+          {children}
+          {disclosure && <span className="disclosure-icon">{getDisclosureIcon()}</span>}
+        </>
+      )}
 
       <style jsx="true">{`
         .button {
@@ -136,6 +144,36 @@ const Button = forwardRef(({
         .disclosure-icon {
           display: flex;
           align-items: center;
+        }
+
+        .spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid currentColor;
+          border-right-color: transparent;
+          border-radius: 50%;
+          animation: spin 0.75s linear infinite;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .button.small .spinner {
+          width: 14px;
+          height: 14px;
+          border-width: 2px;
+        }
+
+        .button.large .spinner {
+          width: 20px;
+          height: 20px;
+          border-width: 2.5px;
         }
       `}</style>
     </button>
