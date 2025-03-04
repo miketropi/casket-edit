@@ -15,10 +15,19 @@ const rotationSetupInit = {
 
 const defaultProps = {
   version: '1.0.0',
+  apiInstance,
   name: 'Casket Edit',
   developMode: true,
   rotationSetupInit,
   planes,
+  imagesUsed: [],
+  decalsImageDesign: {
+    Lid: '',
+    Right: '',
+    Left: '',
+    Bottom: '', 
+    Top: '',
+  },
   editElement: [],
   designImageFn__Ref: null,
 }
@@ -66,9 +75,19 @@ export const createAppStore = (initProps) => {
           set({ designImageFn__Ref });
         },
         onSaveDesign: async () => {
-          let dataSave = get().planes;
-          const response = await apiInstance.saveDesign(dataSave);
-          console.log('response', response);
+          // let dataSave = get().planes;
+          // const response = await apiInstance.saveDesign(dataSave);
+          // return response;
+        },
+        onSetDecalsImageDesign: (planeName, image) => {
+          set((state) => {
+            state.decalsImageDesign[planeName] = image;
+          });
+        }, 
+        onPushImagesUsed: (image) => {
+          set((state) => {
+            state.imagesUsed.push(image);
+          });
         }
       }
     })

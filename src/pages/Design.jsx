@@ -4,10 +4,13 @@ import CanvasPreview from '../components/CanvasPreview';
 import Accordion from '../components/Accordion';
 import PlaneControl from '../components/PlaneControl';
 import Button from '../components/Button';
+import Modal from '../components/Modal';
+import UserInfoForm from '../components/UserInfoForm';
 
 export default function Design() {
-  const { version, planes, updatePlane, onSaveDesign } = useAppStore();
+  const { version, planes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed } = useAppStore();
   const [loading, setLoading] = useState(false);
+  const [saveModal, setSaveModal] = useState(false);
 
   useEffect(() => {
     console.log(version);
@@ -21,10 +24,10 @@ export default function Design() {
    }));
 
   const __onSaveDesign = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    await onSaveDesign();
-    setLoading(false);
+    // e.preventDefault();
+    // setLoading(true);
+    // await onSaveDesign();
+    // setLoading(false);
   }
 
   return <div className="design-page">
@@ -36,6 +39,9 @@ export default function Design() {
         <div className="heading-container">
           <h2>Design your Casket</h2>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad eius voluptatem quas atque cupiditate impedit sunt tempora debitis deleniti fugiat! Dolores architecto harum odio nam iusto sed dicta delectus accusamus!</p>
+          {
+            console.log(decalsImageDesign)
+          }
           {/* <Button fullWidth onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(planes, null, 2))
               .then(() => {
@@ -54,8 +60,55 @@ export default function Design() {
          <Button 
           loading={ loading } 
           fullWidth size="large" 
-          onClick={ __onSaveDesign }>Save This Design</Button>
+          onClick={ () => setSaveModal(true) }>Save This Design</Button>
         </div>
+
+        <Modal 
+          isOpen={ saveModal } 
+          onClose={ () => setSaveModal(false) }
+          title="Save Design"
+          >
+          <UserInfoForm 
+            loading={ loading }
+            onSubmit={ async (formData) => {
+              setLoading(true);
+              let newPlacesData= [...planes].map((plane) => {
+                let { elements, ...rest } = plane;
+                return { ...rest }
+              })
+              // console.log(newPlacesData);
+              const response = await apiInstance.saveDesignEditData(newPlacesData); 
+              if(!response?.url) {
+                // error
+                console.log(response);
+                alert('Error saving design');
+                return;
+              }
+
+              let designEditUrl = response.url;
+              let postData = {
+                "post_title": formData?.designName,
+                "post_content": formData?.description,
+                "casket_firstname": formData?.firstName,
+                "casket_lastname": formData?.lastName,
+                "casket_email": formData.email,
+                "casket_design_data": designEditUrl,
+                "casket_lib": decalsImageDesign?.Lid,
+                "casket_right": decalsImageDesign?.Right,
+                "casket_left": decalsImageDesign?.Left,
+                "casket_back": decalsImageDesign?.Back,
+                "casket_top": decalsImageDesign?.Top,
+                "casket_bottom": decalsImageDesign?.Bottom,
+                "casket_images": imagesUsed,
+              };
+
+              const createResponse = await apiInstance.createDesign(postData);
+              setLoading(false); 
+              // success
+              console.log('submitted', formData, createResponse);
+            } }
+          />
+        </Modal>
       </div>
     </div>
   </div>

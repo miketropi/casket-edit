@@ -9,16 +9,30 @@ import { useAppStore } from '../context/AppContext';
 
 
 export default function PlaneControl({ plane, onUpdate }) {
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const { editElement, designImageFn__Ref, setElementsToPlane, updatePlane } = useAppStore();
+  const { editElement, designImageFn__Ref, setElementsToPlane, updatePlane, apiInstance, onSetDecalsImageDesign } = useAppStore();
 
-  const onUseDesign = () => {
+  const onUseDesign = async () => {
+    setLoading(true);
     const image = designImageFn__Ref.exportImage(); // export image base64
+    const res = await apiInstance.uploadImageBase64(image); // Upload image to server
+    if(res?.url) {
+      let __decal_image = `${ import.meta.env.VITE_API_ENDPOINT }/?image_source=${ res.url }`;
+      onSetDecalsImageDesign(plane.label, res?.url);
+      updatePlane(plane.name, { ...plane, decalImage: __decal_image, elements: editElement });
+      setIsModalOpen(false);
+    } else {
+      console.error(res);
+      alert('Internal Server Error: Please try again later!!!');
+    }
+    setLoading(false);
+    return; 
 
     // setElementsToPlane(plane.name, editElement);
-    updatePlane(plane.name, { ...plane, decalImage: image, elements: editElement });
-    setIsModalOpen(false);
+    // updatePlane(plane.name, { ...plane, decalImage: image, elements: editElement });
+    // setIsModalOpen(false);
   }
 
   return <div className="plane-control-container">
@@ -36,6 +50,7 @@ export default function PlaneControl({ plane, onUpdate }) {
       actions={
         [
           <Button 
+            loading={ loading }
             icon={<SquareMousePointer 
             size={16} />} 
             variant="secondary" 

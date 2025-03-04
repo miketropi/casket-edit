@@ -24,9 +24,37 @@ export default class Api {
     return await this.__request('/wp-json/custom/v1/casket-upload-image', options);
   }
 
-  async saveDesign(design) {
+  async uploadImageBase64(base64String) {
     const options = {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        base64_string: base64String
+      })
+    };
+
+    return await this.__request('/wp-json/custom/v1/casket-base64-image-upload', options);
+  }
+
+  async createDesign(postData) {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    };
+    return await this.__request('/wp-json/custom/v1/casket-create-design', options);
+  }
+
+  async saveDesignEditData(design) {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(design)
     };
     return await this.__request('/wp-json/custom/v1/casket-save-json', options);
