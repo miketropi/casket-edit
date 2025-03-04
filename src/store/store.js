@@ -17,7 +17,7 @@ const defaultProps = {
   version: '1.0.0',
   apiInstance,
   name: 'Casket Edit',
-  developMode: true,
+  developMode: false,
   rotationSetupInit,
   planes,
   imagesUsed: [],

@@ -58,11 +58,13 @@ export default function Design() {
     };
 
     const createResponse = await apiInstance.createDesign(postData);
-    console.log('submitted', createResponse);
+    // console.log('submitted', createResponse);
     setLoading(false); 
     // success
     if(createResponse.success) {
       setSaveDesign(true); 
+    } else {
+      alert('Error saving design, please try again!!!');
     }
   }
 
@@ -76,7 +78,7 @@ export default function Design() {
           <h2>Design your Casket</h2>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad eius voluptatem quas atque cupiditate impedit sunt tempora debitis deleniti fugiat! Dolores architecto harum odio nam iusto sed dicta delectus accusamus!</p>
           {
-            console.log(decalsImageDesign)
+            // console.log(decalsImageDesign)
           }
           {/* <Button fullWidth onClick={() => {
             navigator.clipboard.writeText(JSON.stringify(planes, null, 2))

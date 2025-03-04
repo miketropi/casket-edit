@@ -14,7 +14,11 @@ export default function CanvasPreview() {
           <Model position={[0, 0, 0]} scale={2} />
         </Center>
       </Suspense>
-      <OrbitControls />
+      <OrbitControls 
+        makeDefault 
+        enableZoom={false} 
+        enablePan={false}
+      />
     </Canvas>
   )
 }

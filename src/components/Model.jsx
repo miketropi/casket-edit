@@ -71,9 +71,9 @@ function Model(atts) {
     <group { ...atts }>
       <primitive 
         object={ scene } 
-        onPointerOver={handleHover} 
-        onPointerOut={(e) => handleHover(e, false)} 
-        onClick={handleClick} 
+        // onPointerOver={handleHover} 
+        // onPointerOut={(e) => handleHover(e, false)} 
+        // onClick={handleClick} 
       />
       { decals }
     </group>
