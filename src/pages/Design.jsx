@@ -6,10 +6,12 @@ import PlaneControl from '../components/PlaneControl';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
 import UserInfoForm from '../components/UserInfoForm';
+import ThankYou from '../components/ThankYou';
 
 export default function Design() {
   const { version, planes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed } = useAppStore();
   const [loading, setLoading] = useState(false);
+  const [saveDesign, setSaveDesign] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
 
   useEffect(() => {
@@ -23,11 +25,45 @@ export default function Design() {
     } } />
    }));
 
-  const __onSaveDesign = async (e) => {
-    // e.preventDefault();
-    // setLoading(true);
-    // await onSaveDesign();
-    // setLoading(false);
+  const __onSaveDesign = async (formData) => {
+    setLoading(true);
+    let newPlacesData= [...planes].map((plane) => {
+      let { elements, ...rest } = plane;
+      return { ...rest }
+    })
+    // console.log(newPlacesData);
+    const response = await apiInstance.saveDesignEditData(newPlacesData); 
+    if(!response?.url) {
+      // error
+      console.log(response);
+      alert('Error saving design');
+      return;
+    }
+
+    let designEditUrl = response.url;
+    let postData = {
+      "post_title": formData?.designName,
+      "post_content": formData?.description,
+      "casket_firstname": formData?.firstName,
+      "casket_lastname": formData?.lastName,
+      "casket_email": formData.email,
+      "casket_design_data": designEditUrl,
+      "casket_lib": decalsImageDesign?.Lid,
+      "casket_right": decalsImageDesign?.Right,
+      "casket_left": decalsImageDesign?.Left,
+      "casket_back": decalsImageDesign?.Back,
+      "casket_top": decalsImageDesign?.Top,
+      "casket_bottom": decalsImageDesign?.Bottom,
+      "casket_images": imagesUsed,
+    };
+
+    const createResponse = await apiInstance.createDesign(postData);
+    console.log('submitted', createResponse);
+    setLoading(false); 
+    // success
+    if(createResponse.success) {
+      setSaveDesign(true); 
+    }
   }
 
   return <div className="design-page">
@@ -68,46 +104,14 @@ export default function Design() {
           onClose={ () => setSaveModal(false) }
           title="Save Design"
           >
-          <UserInfoForm 
-            loading={ loading }
-            onSubmit={ async (formData) => {
-              setLoading(true);
-              let newPlacesData= [...planes].map((plane) => {
-                let { elements, ...rest } = plane;
-                return { ...rest }
-              })
-              // console.log(newPlacesData);
-              const response = await apiInstance.saveDesignEditData(newPlacesData); 
-              if(!response?.url) {
-                // error
-                console.log(response);
-                alert('Error saving design');
-                return;
-              }
-
-              let designEditUrl = response.url;
-              let postData = {
-                "post_title": formData?.designName,
-                "post_content": formData?.description,
-                "casket_firstname": formData?.firstName,
-                "casket_lastname": formData?.lastName,
-                "casket_email": formData.email,
-                "casket_design_data": designEditUrl,
-                "casket_lib": decalsImageDesign?.Lid,
-                "casket_right": decalsImageDesign?.Right,
-                "casket_left": decalsImageDesign?.Left,
-                "casket_back": decalsImageDesign?.Back,
-                "casket_top": decalsImageDesign?.Top,
-                "casket_bottom": decalsImageDesign?.Bottom,
-                "casket_images": imagesUsed,
-              };
-
-              const createResponse = await apiInstance.createDesign(postData);
-              setLoading(false); 
-              // success
-              console.log('submitted', formData, createResponse);
-            } }
-          />
+          {
+            saveDesign 
+              ? <ThankYou /> 
+              : <UserInfoForm  
+                loading={ loading }
+                onSubmit={ __onSaveDesign }
+              />
+          }
         </Modal>
       </div>
     </div>
