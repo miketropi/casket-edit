@@ -7,7 +7,7 @@ import DecalPlane from './DecalPlane';
 function Model(atts) {
   const { addPlane, planes, setPlanes, rotationSetupInit } = useAppStore();
   const { scene, nodes } = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
-  const decalTexture = useTexture("/decal.jpg");
+  // const decalTexture = useTexture("/decal.jpg");
   const meshRefs = useRef({});
   const [decals, setDecals] = useState([]);
 
@@ -40,7 +40,7 @@ function Model(atts) {
     });
 
     setDecals(decalElements);
-  }, [scene, decalTexture, planes]);
+  }, [scene, planes]);
 
   const handleHover = (e, isHover = true) => {
     e.stopPropagation();

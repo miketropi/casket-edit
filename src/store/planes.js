@@ -12,8 +12,9 @@ const planes = [
       0,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale": 1.68,
+    "decalImage": "",
+    "placeholderImage": "/lib-placeholder.png",
   },
   {
     "label": "Right",

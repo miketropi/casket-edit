@@ -16,7 +16,7 @@ export default function CanvasPreview() {
       </Suspense>
       <OrbitControls 
         makeDefault 
-        enableZoom={false} 
+        enableZoom={true} 
         enablePan={false}
       />
     </Canvas>
