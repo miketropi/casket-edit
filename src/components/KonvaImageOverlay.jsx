@@ -65,11 +65,15 @@ export default function KonvaImageOverlay({ imagePlaceholder, imageOverlay, canv
 
       ctx.globalCompositeOperation = "source-in";
 
-      if(onLoadInit == true) {
-        var image = new window.Image();
-        image.src = imageOverlay.toDataURL();
-        setOnLoadInit(false)
-      }
+      // if(onLoadInit == true) {
+      //   var image = new window.Image();
+      //   image.src = imageOverlay.toDataURL();
+      //   setOnLoadInit(false)
+      // }
+
+      // var image = new window.Image();
+      // image.src = 
+      imageOverlay.toDataURL();
 
       ctx.drawImage(imageOverlay.canvas._canvas, 0, 0, width, height); 
     } 

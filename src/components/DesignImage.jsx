@@ -216,24 +216,12 @@ export default function DesignImage({ plane }) {
           key={element.id}
           element={element}
           { ...attributes }
-
-          // opacity={ .3 }
-          // onDragMove={ (e) => handleDragMove(e, index) }
-          // onHandleTransform={ (e) => handleTransform(e, index) }
-          // onSelect={ (id) => setSelectedId(id) }
-          // isSelected={selectedId === `element-${element.id}`}
         />
       case 'text':
         return <KonvaTextElement
           key={element.id}
           element={element}
           { ...attributes }
-
-          // opacity={ .3 }
-          // onDragMove={ (e) => handleDragMove(e, index) }
-          // onHandleTransform={ (e) => handleTransform(e, index) }
-          // onSelect={ (id) => setSelectedId(id) }
-          // isSelected={selectedId === `element-${element.id}`}
         />
       default:
         return null;
@@ -323,6 +311,7 @@ export default function DesignImage({ plane }) {
 
           <div className="design-image-tool-bar-item">
             <Button variant="danger" icon={<TrashIcon size={16} />} onClick={() => {
+              console.log(selectedId, layoutData.elements)
               let r = confirm("Are you sure you want to delete this element?");
               if(r == false) return;
 
