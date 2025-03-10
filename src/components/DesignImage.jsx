@@ -83,6 +83,11 @@ export default function DesignImage({ plane }) {
       // height: element.type === 'image' ? 100 : undefined,
     };
 
+    if(element.type === 'text') {
+      newElement.x = (dimensions.width / 2) - (122 / 2);
+      newElement.y = (dimensions.height / 3) - (46 / 2);
+    }
+
     if (element.type === 'image') {
       const img = new window.Image();
       img.src = element.src;
@@ -113,6 +118,10 @@ export default function DesignImage({ plane }) {
 
         newElement.width = newWidth;
         newElement.height = newHeight;
+
+        // Center the image
+        newElement.x = dimensions.width / 2 - newWidth / 2;
+        newElement.y = dimensions.height / 2 - newHeight / 2;
 
         setLayoutData({
           ...layoutData,
@@ -240,7 +249,7 @@ export default function DesignImage({ plane }) {
         onAddImageElement(file);
       }}
       onAddTextElement={ () => {
-        onAddTextElement("Select to edit your text");
+        onAddTextElement("Select to edit \nyour text");
       } }
       onOrderingChange={ (newItems) => {
         setLayoutData({ ...layoutData, elements: newItems });
@@ -311,12 +320,13 @@ export default function DesignImage({ plane }) {
 
           <div className="design-image-tool-bar-item">
             <Button variant="danger" icon={<TrashIcon size={16} />} onClick={() => {
-              console.log(selectedId, layoutData.elements)
+              // console.log(selectedId, layoutData.elements)
               let r = confirm("Are you sure you want to delete this element?");
               if(r == false) return;
-
+              let findIndex = layoutData.elements.findIndex(e => e.id === selectedId.replace('element-', ''));
+              // console.log(findIndex);
               const elements = [...layoutData.elements];
-              elements.splice(selectedId, 1);
+              elements.splice(findIndex, 1);
               setLayoutData({ ...layoutData, elements });
               setSelectedId(null);
             }}></Button>
