@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Popover from './Popover';
 import { useAppStore } from '../context/AppContext';
 import WebFont from 'webfontloader';
+import KonvaImageOverlay from './KonvaImageOverlay'; 
+
 export default function DesignImage({ plane }) {
   const { setEditElement, setDesignImageFn__Ref } = useAppStore();
   const fnRef = useRef(null);
@@ -26,6 +28,7 @@ export default function DesignImage({ plane }) {
   });
 
   useEffect(() => {
+
     if (refContainer.current) {
       setDimensions({
         width: refContainer.current.offsetWidth,
@@ -43,6 +46,7 @@ export default function DesignImage({ plane }) {
     }
 
     setDesignImageFn__Ref(fnRef.current);
+
     return () => {
       setDesignImageFn__Ref(null);
     }
@@ -53,10 +57,14 @@ export default function DesignImage({ plane }) {
   }, [layoutData.elements]);
 
   useEffect(() => {
+    
     if (selectedId !== null && transformerRef.current) {
       const stage = transformerRef.current.getStage();
       const selectedNode = stage.findOne('#' + selectedId);
+
+      // console.log('selectedId__**', selectedId);  
       // console.log('selectedNode', stage, selectedNode, selectedId);
+
       if (selectedNode) {
         transformerRef.current.nodes([selectedNode]);
       }
@@ -74,6 +82,11 @@ export default function DesignImage({ plane }) {
       // width: element.type === 'image' ? 100 : undefined,
       // height: element.type === 'image' ? 100 : undefined,
     };
+
+    if(element.type === 'text') {
+      newElement.x = (dimensions.width / 2) - (122 / 2);
+      newElement.y = (dimensions.height / 3) - (46 / 2);
+    }
 
     if (element.type === 'image') {
       const img = new window.Image();
@@ -105,6 +118,10 @@ export default function DesignImage({ plane }) {
 
         newElement.width = newWidth;
         newElement.height = newHeight;
+
+        // Center the image
+        newElement.x = dimensions.width / 2 - newWidth / 2;
+        newElement.y = dimensions.height / 2 - newHeight / 2;
 
         setLayoutData({
           ...layoutData,
@@ -179,25 +196,41 @@ export default function DesignImage({ plane }) {
     setLayoutData({ ...layoutData, elements });
   };
 
-  const renderElement = (element, index) => {
+  /**
+   * 
+   * @param {*} element 
+   * @param {*} index 
+   * @param {*} mode | edit | preview
+   * @returns 
+   */
+  const renderElement = (element, index, mode = 'edit') => {
+
+    let attributes = (() => {
+      return mode === 'edit' ? {
+        __mode: mode,
+        opacity: 1,
+        onDragMove: (e) => handleDragMove(e, index),
+        onHandleTransform: (e) => handleTransform(e, index),
+        onSelect: (id) => { setSelectedId(id); },
+        isSelected: selectedId === `element-${element.id}`,
+      } : {
+        __mode: mode,
+        opacity: 1
+      }
+    })();
+
     switch(element.type) {
       case 'image':
         return <KonvaImageElement
           key={element.id}
           element={element}
-          onDragMove={ (e) => handleDragMove(e, index) }
-          onHandleTransform={ (e) => handleTransform(e, index) }
-          onSelect={ (id) => setSelectedId(id) }
-          isSelected={selectedId === `element-${element.id}`}
+          { ...attributes }
         />
       case 'text':
         return <KonvaTextElement
           key={element.id}
           element={element}
-          onDragMove={ (e) => handleDragMove(e, index) }
-          onHandleTransform={ (e) => handleTransform(e, index) }
-          onSelect={ (id) => setSelectedId(id) }
-          isSelected={selectedId === `element-${element.id}`}
+          { ...attributes }
         />
       default:
         return null;
@@ -209,13 +242,14 @@ export default function DesignImage({ plane }) {
   )
 
   return <div className="design-image-container">
+    {/* { console.log(plane.placeholderImage) } */}
     <DesignImageToolBar
       elements={ layoutData.elements }
       onUploadImage={ (file) => {
         onAddImageElement(file);
       }}
       onAddTextElement={ () => {
-        onAddTextElement("Select to edit your text");
+        onAddTextElement("Select to edit \nyour text");
       } }
       onOrderingChange={ (newItems) => {
         setLayoutData({ ...layoutData, elements: newItems });
@@ -286,11 +320,13 @@ export default function DesignImage({ plane }) {
 
           <div className="design-image-tool-bar-item">
             <Button variant="danger" icon={<TrashIcon size={16} />} onClick={() => {
+              // console.log(selectedId, layoutData.elements)
               let r = confirm("Are you sure you want to delete this element?");
               if(r == false) return;
-
+              let findIndex = layoutData.elements.findIndex(e => e.id === selectedId.replace('element-', ''));
+              // console.log(findIndex);
               const elements = [...layoutData.elements];
-              elements.splice(selectedId, 1);
+              elements.splice(findIndex, 1);
               setLayoutData({ ...layoutData, elements });
               setSelectedId(null);
             }}></Button>
@@ -306,19 +342,9 @@ export default function DesignImage({ plane }) {
           if(!e.target.attrs?.type) {
             setSelectedId(null);
           }
-          
-          // if (e.target === e.target.getStage()) {
-          //   setSelectedId(null);
-          // }
         }}
       >
-        {/* <Layer>
-          <Rect
-            width={dimensions.width}
-            height={dimensions.height}
-            fill="#fafafa"
-          />
-        </Layer> */}
+
         <Layer ref={designLayerRef}>
           <Rect
             width={dimensions.width}
@@ -326,18 +352,29 @@ export default function DesignImage({ plane }) {
             fill="#fafafa"
           />
           {layoutData.elements.map((element, index) => renderElement(element, index))}
-          <Transformer 
-            ref={transformerRef} 
-            // enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-            boundBoxFunc={(oldBox, newBox) => {
-              // Limit minimum size
-              if (newBox.width < 20 || newBox.height < 20) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-          />
         </Layer>
+
+        {/* Image placeholder */}
+        <KonvaImageOverlay
+          imagePlaceholder={ plane.placeholderImage }
+          imageOverlay={ designLayerRef?.current }
+          canvasSize={ { width: dimensions.width, height: dimensions.height } }
+        />
+
+        <Layer>
+          <Transformer 
+              ref={transformerRef} 
+              // enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+              boundBoxFunc={(oldBox, newBox) => {
+                // Limit minimum size
+                if (newBox.width < 20 || newBox.height < 20) {
+                  return oldBox;
+                }
+                return newBox;
+              }}
+            />
+        </Layer>
+
       </Stage>
     </div>
     {/* { console.log(layoutData) } */}

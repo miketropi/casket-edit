@@ -12,8 +12,9 @@ const planes = [
       0,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale": 1.68,
+    "decalImage": "",
+    "placeholderImage": "/lib-placeholder.png"
   },
   {
     "label": "Right",
@@ -25,11 +26,12 @@ const planes = [
     ],
     "rotation": [
       0,
-      -1.57,
+      1.57,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale": 1.07,
+    "decalImage": "",
+    "placeholderImage": "/side-placeholder.png"
   },
   {
     "label": "Left",
@@ -44,8 +46,9 @@ const planes = [
       -1.57,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale":1.07,
+    "decalImage": "",
+    "placeholderImage": "/side-placeholder.png"
   },
   {
     "label": "Bottom",
@@ -60,8 +63,9 @@ const planes = [
       0,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale": 0.28,
+    "decalImage": "",
+    "placeholderImage": "/foot-placeholder.png"
   },
   {
     "label": "Top",
@@ -73,11 +77,12 @@ const planes = [
     ],
     "rotation": [
       0,
-      0,
+      3.14,
       0
     ],
-    "scale": 1.25,
-    "decalImage": ""
+    "scale": 0.29,
+    "decalImage": "",
+    "placeholderImage": "/head-placeholder.png"
   }
 ]
 

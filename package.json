@@ -21,6 +21,7 @@
     "react-konva-utils": "^1.1.0",
     "react-router-dom": "^7.1.5",
     "three": "^0.173.0",
+    "use-image": "^1.1.1",
     "uuid": "^11.0.5",
     "webfontloader": "^1.6.28",
     "zustand": "^5.0.3"

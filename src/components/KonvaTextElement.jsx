@@ -3,7 +3,7 @@ import { Text } from 'react-konva';
 import WebFont from 'webfontloader';
 import { useAppStore } from '../context/AppContext';
 
-export default function KonvaTextElement({ element, onDragMove, onHandleTransform, onSelect, isSelected }) {
+export default function KonvaTextElement({ __mode, element, opacity, onDragMove, onHandleTransform, onSelect, isSelected }) {
   const { designImageFn__Ref } = useAppStore();
   const textRef = useRef(null);
   const loadFont = (font) => {
@@ -28,16 +28,32 @@ export default function KonvaTextElement({ element, onDragMove, onHandleTransfor
     }
   }, []);
 
+  const attributes = {}
+  if(opacity) {
+    attributes.opacity = opacity;
+  }
+  if(onDragMove) {
+    attributes.draggable = true;
+    attributes.onDragMove = onDragMove;
+  }
+  if(onHandleTransform) {
+    attributes.onTransform = onHandleTransform;
+  }
+  if(onSelect) {
+    attributes.onClick = e => {
+      onSelect(`element-${element.id}`);
+    };
+  }
+
+  let __id = `element-${ element.id }`;
+  if(__mode === 'preview') {
+    __id += '__preview';
+  }
+
   return <Text 
     { ...element }
-    id={`element-${element.id}`}
-    ref={textRef}
-    draggable
-    onDragMove={onDragMove}
-    onTransform={onHandleTransform}
-    onClick={ e => { 
-      // console.log(textRef.current);
-      onSelect(`element-${element.id}`); } 
-    }
+    id={ __id }
+    ref={ textRef }
+    { ...attributes }
   />
 }
