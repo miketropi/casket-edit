@@ -1,11 +1,11 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas as ThreeCanvas } from '@react-three/fiber';
 import { OrbitControls, Center } from '@react-three/drei'; 
 import { Suspense } from "react";
 import Model from '../components/Model';
 
 export default function CanvasPreview() {
   return (
-    <Canvas>
+    <ThreeCanvas>
       <color attach="background" args={['#f0f0f0']} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[2, 2, 2]} />
@@ -19,6 +19,6 @@ export default function CanvasPreview() {
         enableZoom={true} 
         enablePan={false}
       />
-    </Canvas>
+    </ThreeCanvas>
   )
 }

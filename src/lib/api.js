@@ -59,4 +59,8 @@ export default class Api {
     };
     return await this.__request('/wp-json/custom/v1/casket-save-json', options);
   }
+
+  async getDesignData(id) {
+    return await this.__request(`/wp-json/custom/v1/casket-design/${id}`);
+  }
 }
