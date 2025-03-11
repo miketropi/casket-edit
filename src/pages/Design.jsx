@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import Modal from '../components/Modal';
 import UserInfoForm from '../components/UserInfoForm';
 import ThankYou from '../components/ThankYou';
-
+import Loading from '../components/Loading';
 
 export default function Design() {
   const { id } = useParams();
@@ -16,7 +16,7 @@ export default function Design() {
   const [shareData, setShareData] = useState(null);
   const [savePostId, setSavePostId] = useState(null);
 
-  const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed } = useAppStore();
+  const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed, mainLoaded } = useAppStore();
   const [loading, setLoading] = useState(false);
   const [saveDesign, setSaveDesign] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
@@ -92,6 +92,12 @@ export default function Design() {
   }
 
   return <div className="design-page">
+    {
+      mainLoaded == false && (
+        <Loading />
+      )
+    }
+    
     <div className="preview-area">
       <CanvasPreview />
     </div>
@@ -145,8 +151,8 @@ export default function Design() {
               } else {
                 return (
                   <>
-                    <h2>Design Casket</h2>
-                    <p>Create a personalized memorial by customizing each side of the casket with your own images, text, and designs. Select a surface to begin editing.</p>
+                    <h2>Design Coffin</h2>
+                    <p>Create a personalized memorial by customizing each side of the coffin with your own images, text, and designs. Select a surface to begin editing.</p>
                   </>
                 )
               }

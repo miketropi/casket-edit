@@ -5,10 +5,18 @@ import { useAppStore } from '../context/AppContext';
 import DecalPlane from './DecalPlane';
 
 function Model(atts) {
-  const { addPlane, planes, setPlanes, rotationSetupInit } = useAppStore();
+  const { addPlane, planes, setPlanes, rotationSetupInit, setMainLoaded } = useAppStore();
   // const [__material, set__material] = useState(null);
   // console.log(import.meta.env.VITE_CASKET_MODEL_PATH)
-  const { scene, nodes } = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
+  
+  const gltf = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
+  const { scene, nodes } = gltf;
+
+  useEffect(() => {
+    // console.log('Model loaded:', gltf);
+    setMainLoaded(true);
+  }, [gltf]);
+
   // const decalTexture = useTexture("/decal.jpg");
   const meshRefs = useRef({});
   const [decals, setDecals] = useState([]);

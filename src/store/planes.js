@@ -17,7 +17,7 @@ const planes = [
     "placeholderImage": "/lib-placeholder.png"
   },
   {
-    "label": "Right",
+    "label": "Right Side",
     "name": "Curve003_-_Side_A",
     "position": [
       -0.023382902145385742,
@@ -34,7 +34,7 @@ const planes = [
     "placeholderImage": "/side-placeholder.png"
   },
   {
-    "label": "Left",
+    "label": "Left Side",
     "name": "Curve005_-_Side_B",
     "position": [
       0.025755465030670166,
@@ -51,7 +51,7 @@ const planes = [
     "placeholderImage": "/side-placeholder.png"
   },
   {
-    "label": "Bottom",
+    "label": "Foot End",
     "name": "Curve004_-_Foot",
     "position": [
       0.025036871433258057,
@@ -68,7 +68,7 @@ const planes = [
     "placeholderImage": "/foot-placeholder.png"
   },
   {
-    "label": "Top",
+    "label": "Head End",
     "name": "Curve002_-_Head",
     "position": [
       -0.02662891149520874,
