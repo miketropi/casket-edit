@@ -15,6 +15,7 @@ const rotationSetupInit = {
 
 const defaultProps = {
   version: '1.0.0',
+  mainLoaded: false,
   apiInstance,
   name: 'Casket Edit',
   developMode: false,
@@ -38,6 +39,9 @@ export const createAppStore = (initProps) => {
       return {
         ...initProps,
         ...defaultProps,
+        setMainLoaded: (mainLoaded) => {
+          set({ mainLoaded });
+        },
         setPlanes: (planes) => {
           set({ planes });
         },
