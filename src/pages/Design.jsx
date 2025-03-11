@@ -1,3 +1,4 @@
+import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useAppStore } from '../context/AppContext.jsx';
 import CanvasPreview from '../components/CanvasPreview';
@@ -8,11 +9,32 @@ import Modal from '../components/Modal';
 import UserInfoForm from '../components/UserInfoForm';
 import ThankYou from '../components/ThankYou';
 
+
 export default function Design() {
-  const { version, planes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed } = useAppStore();
+  const { id } = useParams();
+  const [shareMode, setShareMode] = useState(false);
+  const [shareData, setShareData] = useState(null);
+  const [savePostId, setSavePostId] = useState(null);
+
+  const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed } = useAppStore();
   const [loading, setLoading] = useState(false);
   const [saveDesign, setSaveDesign] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
+
+  const getCasketData = async () => {
+    const response = await apiInstance.getDesignData(id);
+    if(response?.casket_design_data) {
+      setShareData(response);
+      setShareMode(true);
+      setPlanes(response.casket_design_data)
+    }
+  }
+
+  useEffect(() => {
+    if(id) {
+      getCasketData()
+    }
+  }, [id]);
 
   useEffect(() => {
     console.log(version);
@@ -63,6 +85,7 @@ export default function Design() {
     // success
     if(createResponse.success) {
       setSaveDesign(true); 
+      setSavePostId(createResponse.post_id)
     } else {
       alert('Error saving design, please try again!!!');
     }
@@ -75,46 +98,91 @@ export default function Design() {
     <div className="control-area">
       <div className="control-area-inner">
         <div className="heading-container">
-          <h2>Design your Casket</h2>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad eius voluptatem quas atque cupiditate impedit sunt tempora debitis deleniti fugiat! Dolores architecto harum odio nam iusto sed dicta delectus accusamus!</p>
           {
-            // console.log(decalsImageDesign)
-          }
-          {/* <Button fullWidth onClick={() => {
-            navigator.clipboard.writeText(JSON.stringify(planes, null, 2))
-              .then(() => {
-                console.log('Planes data copied to clipboard');
-              })
-              .catch(err => {
-                console.error('Failed to copy planes data:', err);
-              });
-          }}>
-            Copy planes
-          </Button> */}
-        </div>
-        <Accordion items={ AccordionItems } />
-        
-        <div style={{ padding: '1rem', marginTop: '1rem' }}>
-         <Button 
-          loading={ loading } 
-          fullWidth size="large" 
-          onClick={ () => setSaveModal(true) }>Save This Design</Button>
-        </div>
+            (() => {
+              if(shareMode) {
+                return (
+                  <>
+                    <div className="design-share-container">
+                      <h2 className="design-title">Name: { shareData?.post_title }</h2>
+                      <div className="design-description">{ shareData?.post_content }</div>
+                      
+                      <div className="design-metadata">
+                        <div className="creator-info">
+                          <span className="label">Designer:</span>
+                          <span className="value">{ shareData?.casket_firstname } { shareData?.casket_lastname }</span>
+                        </div>
+                        <div className="contact-info">
+                          <span className="label">Contact:</span>
+                          <span className="value"><a href={ `mailto:${shareData?.casket_email}` }>{ shareData?.casket_email }</a></span>
+                        </div>
+                      </div>
+                      
+                      <div className="share-link-container">
+                        <span className="share-label">Share this design:</span>
+                        <a 
+                          className="share-url" 
+                          href={ `${window.location.origin}/design/${shareData?.post_id}` } 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
+                          { `${window.location.origin}/design/${shareData?.post_id}` }
+                        </a>
+                      </div>
 
-        <Modal 
-          isOpen={ saveModal } 
-          onClose={ () => setSaveModal(false) }
-          title="Save Design"
-          >
-          {
-            saveDesign 
-              ? <ThankYou /> 
-              : <UserInfoForm  
-                loading={ loading }
-                onSubmit={ __onSaveDesign }
-              />
+                      <div style={{ marginTop: '1.5em' }}>
+                        <Button 
+                          fullWidth 
+                          size="large" 
+                          onClick={() => window.location.href = '/design'}
+                        >
+                          Create New Design
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )
+              } else {
+                return (
+                  <>
+                    <h2>Design Casket</h2>
+                    <p>Create a personalized memorial by customizing each side of the casket with your own images, text, and designs. Select a surface to begin editing.</p>
+                  </>
+                )
+              }
+            })()
           }
-        </Modal>
+        </div>
+        
+        {
+          shareMode == false && (
+            <>
+              <Accordion items={ AccordionItems } />
+        
+              <div style={{ padding: '1rem', marginTop: '1rem' }}>
+              <Button 
+                loading={ loading } 
+                fullWidth size="large" 
+                onClick={ () => setSaveModal(true) }>Save This Design</Button>
+              </div>
+
+              <Modal 
+                isOpen={ saveModal } 
+                onClose={ () => setSaveModal(false) }
+                title="Save Design"
+                >
+                {
+                  saveDesign 
+                    ? <ThankYou postId={ savePostId } /> 
+                    : <UserInfoForm  
+                      loading={ loading }
+                      onSubmit={ __onSaveDesign }
+                    />
+                }
+              </Modal>
+            </>
+          )
+        }
       </div>
     </div>
   </div>

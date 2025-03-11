@@ -1,6 +1,6 @@
 import { CheckCircle } from 'lucide-react';
 
-export default function ThankYou() {
+export default function ThankYou({ postId }) {
   return (
     <div className="thank-you-container" style={{
       display: 'flex',
@@ -36,6 +36,60 @@ export default function ThankYou() {
       }}>
         We will contact you as soon as possible.
       </p>
+
+      <div className="share-link-container" style={{
+        backgroundColor: '#f0f7ff',
+        padding: '1em',
+        borderRadius: '6px',
+        borderLeft: '3px solid #3498db',
+        marginTop: '1.5rem',
+        width: '100%',
+        textAlign: 'left'
+      }}>
+        <span className="share-label" style={{
+          display: 'block',
+          marginBottom: '0.5em',
+          fontWeight: '600',
+          color: '#3498db'
+        }}>
+          Share this design:
+        </span>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}>
+          <input
+            type="text"
+            readOnly
+            value={`${window.location.origin}/design/${postId}`}
+            className="textarea-field"
+            style={{
+              flex: 1,
+              fontSize: '0.9em',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          />
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(`${window.location.origin}/design/${postId}`);
+              alert('Link copied to clipboard!');
+            }}
+            style={{
+              padding: '0.5em 1em',
+              backgroundColor: '#3498db',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            Copy
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

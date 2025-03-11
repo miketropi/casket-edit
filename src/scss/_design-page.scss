@@ -29,3 +29,74 @@
     }
   }
 }
+
+.design-share-container {
+  // padding: 0 1em 1em;
+
+  .design-title {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 1.5em;
+    color: #333;
+  }
+
+  .design-description {
+    margin-bottom: 1.5em;
+    line-height: 1.4;
+    color: #555;
+  }
+
+  .design-metadata {
+    margin-bottom: 1.5em;
+    padding: 1em;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+
+    .creator-info, .contact-info {
+      margin-bottom: 0.5em;
+      display: flex;
+      align-items: baseline;
+
+      .label {
+        font-weight: 600;
+        margin-right: 0.5em;
+        min-width: 70px;
+        color: #666;
+      }
+
+      .value {
+        color: #333;
+      }
+    }
+
+    .contact-info {
+      margin-bottom: 0;
+    }
+  }
+
+  .share-link-container {
+    background-color: #f0f7ff;
+    padding: 1em;
+    border-radius: 6px;
+    border-left: 3px solid #3498db;
+
+    .share-label {
+      display: block;
+      margin-bottom: 0.5em;
+      font-weight: 600;
+      color: #3498db;
+    }
+
+    .share-url {
+      display: block;
+      word-break: break-all;
+      color: #2980b9;
+      text-decoration: none;
+      font-size: 0.9em;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

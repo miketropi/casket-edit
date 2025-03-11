@@ -6,7 +6,8 @@ import DecalPlane from './DecalPlane';
 
 function Model(atts) {
   const { addPlane, planes, setPlanes, rotationSetupInit } = useAppStore();
-  const [__material, set__material] = useState(null);
+  // const [__material, set__material] = useState(null);
+  // console.log(import.meta.env.VITE_CASKET_MODEL_PATH)
   const { scene, nodes } = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
   // const decalTexture = useTexture("/decal.jpg");
   const meshRefs = useRef({});
@@ -16,7 +17,7 @@ function Model(atts) {
   useEffect(() => {
     const decalElements = [];
     const __Mesh = scene.getObjectByName("Coffin_Handle_RevT1003");
-    
+
     scene.traverse((child) => {
       if (child.isMesh) {
         meshRefs.current[child.name] = child; 
@@ -88,7 +89,7 @@ function Model(atts) {
         object={ scene } 
         // onPointerOver={handleHover} 
         // onPointerOut={(e) => handleHover(e, false)} 
-        onClick={handleClick} 
+        // onClick={handleClick} 
       />
       { decals }
     </group>
