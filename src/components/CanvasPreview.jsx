@@ -38,6 +38,7 @@ export default function CanvasPreview() {
         makeDefault 
         enableZoom={true} 
         enablePan={false}
+        minPolarAngle={0} maxPolarAngle={Math.PI / 2}
         // onChange={ onChangeOrb }
       />
     </ThreeCanvas>
