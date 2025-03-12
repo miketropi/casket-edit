@@ -151,8 +151,8 @@ export default function Design() {
               } else {
                 return (
                   <>
-                    <h2>Design Coffin</h2>
-                    <p>Create a personalized memorial by customizing each side of the coffin with your own images, text, and designs. Select a surface to begin editing.</p>
+                    <h2>Design it Yourself</h2>
+                    <p>Create a personalised memorial by customizing each side of the coffin with your own images, text, and designs. Select a surface to begin editing.</p>
                   </>
                 )
               }
