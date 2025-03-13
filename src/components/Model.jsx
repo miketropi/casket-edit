@@ -51,6 +51,8 @@ function Model(atts) {
                   decalImage={ plane.decalImage }
                 />
               }
+
+              <meshPhongMaterial color={ (plane?.color ? plane.color : '#ffffff') } />
             </mesh>
           )
         }
