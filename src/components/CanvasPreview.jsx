@@ -30,7 +30,7 @@ export default function CanvasPreview() {
       <directionalLight position={[2, 2, 2]} />
       <Suspense fallback={false}>
         <Center>
-          <Model position={[0, 0, 0]} scale={2} />
+          <Model position={[0, 0, 0]} scale={2.6} />
         </Center>
       </Suspense>
       <OrbitControls 

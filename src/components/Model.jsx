@@ -10,6 +10,7 @@ function Model(atts) {
   // console.log(import.meta.env.VITE_CASKET_MODEL_PATH)
   
   const gltf = useGLTF( import.meta.env.VITE_CASKET_MODEL_PATH ); 
+  // console.log(gltf); 
   const { scene, nodes } = gltf;
 
   useEffect(() => {
