@@ -23,7 +23,11 @@ export default function Upload({ onUpload, label = 'Add Image' }) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        onUpload(e.target.result);
+        // console.log(file);
+        onUpload({
+          src: e.target.result,
+          filename: file.name,
+        });
       };
       reader.readAsDataURL(file);
     }

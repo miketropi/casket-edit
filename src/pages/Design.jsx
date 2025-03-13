@@ -9,6 +9,8 @@ import Modal from '../components/Modal';
 import UserInfoForm from '../components/UserInfoForm';
 import ThankYou from '../components/ThankYou';
 import Loading from '../components/Loading';
+import { CircleHelp, Save } from 'lucide-react';
+import UsefulTips from '../components/UsefulTips';
 
 export default function Design() {
   const { id } = useParams();
@@ -20,7 +22,7 @@ export default function Design() {
   const [loading, setLoading] = useState(false);
   const [saveDesign, setSaveDesign] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
-
+  const [tipsModal, setTipsModal] = useState(false);
   const getCasketData = async () => {
     const response = await apiInstance.getDesignData(id);
     if(response?.casket_design_data) {
@@ -166,11 +168,30 @@ export default function Design() {
               <Accordion items={ AccordionItems } />
         
               <div style={{ padding: '1rem', marginTop: '1rem' }}>
-              <Button 
-                loading={ loading } 
-                fullWidth size="large" 
-                onClick={ () => setSaveModal(true) }>Save This Design</Button>
+                <Button 
+                  loading={ loading } 
+                  fullWidth size="large" 
+                  icon={ <Save /> }
+                  onClick={ () => setSaveModal(true) }>Save This Design</Button>
+
+                <div style={{ marginTop: '1rem' }}></div>
+
+                <Button 
+                  variant="text" 
+                  fullWidth 
+                  size="large" 
+                  icon={ <CircleHelp /> }
+                  onClick={ () => setTipsModal(true) }
+                >Design Module Useful Tips</Button>
               </div>
+              
+              <Modal
+                isOpen={ tipsModal }
+                onClose={ () => setTipsModal(false) }
+                title="Design Module Useful Tips"
+              >
+                <UsefulTips />
+              </Modal>
 
               <Modal 
                 isOpen={ saveModal } 

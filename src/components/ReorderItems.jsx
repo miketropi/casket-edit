@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from './Button';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, Image as ImageIcon, ALargeSmall, Type as TypeIcon } from 'lucide-react';
 
 export default function ReorderItems({ items, onChange }) {
   const [draggedItem, setDraggedItem] = useState(null);
@@ -52,7 +52,18 @@ export default function ReorderItems({ items, onChange }) {
             className="drag-handle"
           />
           <div className="item-content">
-            <span className="item-text">{ item.text || item.type || item.id }</span>
+            {/* { console.log(item) } */}
+            {
+              item.type === 'image' && <ImageIcon size={14} strokeWidth={2} />
+            }
+            {
+              item.type === 'text' && <TypeIcon size={14} strokeWidth={2} />
+            }
+            <span className="item-text" title={ item.text || item.filename || item.id } style={{
+              marginLeft: `4px`
+            }}>
+              { item.text || item.filename || item.id }
+            </span>
           </div>
         </div>
       ))}

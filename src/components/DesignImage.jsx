@@ -137,10 +137,11 @@ export default function DesignImage({ plane }) {
     });
   };
 
-  const onAddImageElement = (imageUrl) => {
+  const onAddImageElement = (data) => {
     handleAddElement({
       type: 'image',
-      src: imageUrl
+      // src: imageUrl
+      ...data
     });
   };
 
