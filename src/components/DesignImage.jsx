@@ -15,7 +15,7 @@ import WebFont from 'webfontloader';
 import KonvaImageOverlay from './KonvaImageOverlay'; 
 
 export default function DesignImage({ plane }) {
-  const { setEditElement, setDesignImageFn__Ref } = useAppStore();
+  const { setEditElement, setDesignImageFn__Ref, updatePlane } = useAppStore();
   const fnRef = useRef(null);
   const designLayerRef = useRef(null);
   const refContainer = useRef(null);
@@ -85,7 +85,7 @@ export default function DesignImage({ plane }) {
 
     if(element.type === 'text') {
       newElement.x = (dimensions.width / 2) - (122 / 2);
-      newElement.y = (dimensions.height / 3) - (46 / 2);
+      newElement.y = (dimensions.height / 2) - (46 / 2);
     }
 
     if (element.type === 'image') {
@@ -246,6 +246,10 @@ export default function DesignImage({ plane }) {
     {/* { console.log(plane.placeholderImage) } */}
     <DesignImageToolBar
       elements={ layoutData.elements }
+      backgroundColor={ plane.color }
+      onChangeBackgroundColor={ (color) => {
+        updatePlane(plane.name, { ...plane, color });
+      }}
       onUploadImage={ (file) => {
         onAddImageElement(file);
       }}
@@ -335,7 +339,16 @@ export default function DesignImage({ plane }) {
         </>
       }
     </DesignImageToolBar>
-    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '560px', border: '1px solid #e0e0e0' }}>
+    <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '560px', border: '1px solid #e0e0e0', position: 'relative' }}>
+      <div className="__control-background-color" style={{ position: 'absolute', top: `10px`, left: `10px`, zIndex: 1000 }}>
+        <ColorPicker
+          label="Background Color"
+          value={ plane.color }
+          onChange={ (color) => {
+            updatePlane(plane.name, { ...plane, color });
+          }}
+        />
+      </div>
       <Stage 
         width={ refContainer?.current?.offsetWidth }
         height={ refContainer?.current?.offsetHeight }
@@ -350,7 +363,7 @@ export default function DesignImage({ plane }) {
           <Rect
             width={dimensions.width}
             height={dimensions.height}
-            fill="#fafafa"
+            fill={ plane.color }
           />
           {layoutData.elements.map((element, index) => renderElement(element, index))}
         </Layer>

@@ -75,12 +75,12 @@ export default function PlaneControl({ plane, onUpdate }) {
       />
     </div>
 
-    <div className="control-item">
+    {/* <div className="control-item">
       <ColorPicker
         label={ `Color of ${ plane.label }` }
         value={plane.color}
         onChange={(value) => onUpdate({ ...plane, color: value })}
       />
-    </div>
+    </div> */}
   </div>
 }
