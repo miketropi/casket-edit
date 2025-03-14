@@ -31,12 +31,12 @@ A React-based 3D coffin customization application that allows users to create pe
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/applycation-design-coffin.git
+git clone https://github.com/miketropi/casket-edit.git
 ```
 
 2. Install dependencies:
 ```bash
-cd applycation-design-coffin
+cd casket-edit
 npm install
 ```
 
