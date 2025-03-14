@@ -6,7 +6,7 @@ import Button from './Button';
 import { PaintbrushVertical, Wand, SquareMousePointer } from 'lucide-react'; 
 import DesignImage from './DesignImage';
 import { useAppStore } from '../context/AppContext';
-
+import ColorPicker from './fields/ColorPicker';
 
 export default function PlaneControl({ plane, onUpdate }) {
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ export default function PlaneControl({ plane, onUpdate }) {
     {/* { JSON.stringify(editElement) } */}
     {/* { JSON.stringify(plane) } */}
 
-    <div className="control-item">
+    <div className="control-item"> 
       <InputRange
         label="Scale"
         min={.1}
@@ -72,6 +72,14 @@ export default function PlaneControl({ plane, onUpdate }) {
         step={0.01}
         value={plane.scale}
         onChange={(value) => onUpdate({ ...plane, scale: value })}
+      />
+    </div>
+
+    <div className="control-item">
+      <ColorPicker
+        label={ `Color of ${ plane.label }` }
+        value={plane.color}
+        onChange={(value) => onUpdate({ ...plane, color: value })}
       />
     </div>
   </div>

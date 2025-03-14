@@ -54,6 +54,24 @@ const planes = [
     'color': '#ffffff'
   },
   {
+    "label": "Head End",
+    "name": "Curve002_-_Head",
+    "position": [
+      -0.02662891149520874,
+      0.12000000476837158,
+      -0.001279592514038086
+    ],
+    "rotation": [
+      0,
+      3.14,
+      0
+    ],
+    "scale": 0.29,
+    "decalImage": "",
+    "placeholderImage": "/head-placeholder.png",
+    'color': '#ffffff'
+  },
+  {
     "label": "Foot End",
     "name": "Curve004_-_Foot",
     "position": [
@@ -71,24 +89,6 @@ const planes = [
     "placeholderImage": "/foot-placeholder.png",
     'color': '#ffffff'
   },
-  {
-    "label": "Head End",
-    "name": "Curve002_-_Head",
-    "position": [
-      -0.02662891149520874,
-      0.12000000476837158,
-      -0.001279592514038086
-    ],
-    "rotation": [
-      0,
-      3.14,
-      0
-    ],
-    "scale": 0.29,
-    "decalImage": "",
-    "placeholderImage": "/head-placeholder.png",
-    'color': '#ffffff'
-  }
 ]
 
 export default planes;
