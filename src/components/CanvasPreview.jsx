@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react';
 import { Canvas as ThreeCanvas } from '@react-three/fiber';
-import { OrbitControls, Center } from '@react-three/drei'; 
+import { OrbitControls, Center, Environment } from '@react-three/drei'; 
 import { Suspense } from "react";
 import Model from '../components/Model';
 import { useAppStore } from '../context/AppContext';
-
+import ImageBackgroundScene from './ImageBackgroundScene';
 export default function CanvasPreview() {
   const OrbitControls_Ref = useRef();
   const { mainLoaded } = useAppStore();
@@ -27,10 +27,13 @@ export default function CanvasPreview() {
     <ThreeCanvas>
       <color attach="background" args={['#f0f0f0']} />
       <ambientLight intensity={0.5} />
-      <directionalLight position={[2, 2, 2]} />
+      <directionalLight position={[10, 10, 10]} />
+
+      <ImageBackgroundScene />
+
       <Suspense fallback={false}>
         <Center>
-          <Model position={[0, 0, 0]} scale={2.6} />
+          <Model position={[0, 0, 0]} scale={2.6} /> 
         </Center>
       </Suspense>
       <OrbitControls 

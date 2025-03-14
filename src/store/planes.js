@@ -14,9 +14,10 @@ const planes = [
     ],
     "scale": 1.68,
     "decalImage": "",
-    "placeholderImage": "/lib-placeholder.png"
+    "placeholderImage": "/lib-placeholder.png",
+    'color': '#ffffff'
   },
-  {
+  { 
     "label": "Right Side",
     "name": "Curve003_-_Side_A",
     "position": [
@@ -31,7 +32,8 @@ const planes = [
     ],
     "scale": 1.07,
     "decalImage": "",
-    "placeholderImage": "/side-placeholder.png"
+    "placeholderImage": "/side-placeholder.png",
+    'color': '#ffffff'
   },
   {
     "label": "Left Side",
@@ -48,24 +50,8 @@ const planes = [
     ],
     "scale":1.07,
     "decalImage": "",
-    "placeholderImage": "/side-placeholder.png"
-  },
-  {
-    "label": "Foot End",
-    "name": "Curve004_-_Foot",
-    "position": [
-      0.025036871433258057,
-      0.12000000476837158,
-      0.0012799203395843506
-    ],
-    "rotation": [
-      0,
-      0,
-      0
-    ],
-    "scale": 0.28,
-    "decalImage": "",
-    "placeholderImage": "/foot-placeholder.png"
+    "placeholderImage": "/side-placeholder.png",
+    'color': '#ffffff'
   },
   {
     "label": "Head End",
@@ -82,8 +68,27 @@ const planes = [
     ],
     "scale": 0.29,
     "decalImage": "",
-    "placeholderImage": "/head-placeholder.png"
-  }
+    "placeholderImage": "/head-placeholder.png",
+    'color': '#ffffff'
+  },
+  {
+    "label": "Foot End",
+    "name": "Curve004_-_Foot",
+    "position": [
+      0.025036871433258057,
+      0.12000000476837158,
+      0.0012799203395843506
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": 0.28,
+    "decalImage": "",
+    "placeholderImage": "/foot-placeholder.png",
+    'color': '#ffffff'
+  },
 ]
 
 export default planes;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const ColorPicker = ({ value, onChange }) => {
+const ColorPicker = ({ label = "Color", value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const colors = [
@@ -16,7 +16,7 @@ const ColorPicker = ({ value, onChange }) => {
         className="picker-trigger"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="field-prefix">Color:</div>
+        <div className="field-prefix">{ label }:</div>
         <div className="color-preview" style={{ backgroundColor: value || '#000000' }} />
         <ChevronDown size={16} />
       </div>
@@ -51,7 +51,8 @@ const ColorPicker = ({ value, onChange }) => {
       <style jsx="true">{`
         .color-picker {
           position: relative;
-          width: 100%;
+          // width: 100%;
+          display: inline-block;
         }
 
         .picker-trigger {
