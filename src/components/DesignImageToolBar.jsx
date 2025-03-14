@@ -4,8 +4,9 @@ import { Text as TextIcon, Layers } from 'lucide-react';
 import Popover from './Popover';
 import { useState } from 'react';
 import ReorderItems from './ReorderItems';
+import ColorPicker from './fields/ColorPicker';
 
-export default function DesignImageToolBar({ elements, onUploadImage, onAddTextElement, children, onOrderingChange }) {
+export default function DesignImageToolBar({ elements, onUploadImage, onAddTextElement, children, onOrderingChange, backgroundColor, onChangeBackgroundColor }) {
   const [ isOpenOrdering, setIsOpenOrdering ] = useState(false);
   const trigger = (
     <Button 
@@ -34,6 +35,9 @@ export default function DesignImageToolBar({ elements, onUploadImage, onAddTextE
     <div className="design-image-tool-bar-item">
       <Button icon={<TextIcon size={16} />} onClick={ onAddTextElement }>Add Text</Button>
     </div>
+    {/* <div className="design-image-tool-bar-item">
+      <ColorPicker label="Background Color" value={ backgroundColor } onChange={ onChangeBackgroundColor } />
+    </div> */}
     {
       children && <div className="design-image-tool-bar-item custom-tool-bar">
         { children }

@@ -52,7 +52,8 @@ function Model(atts) {
                 />
               }
 
-              <meshPhongMaterial color={ (plane?.color ? plane.color : '#ffffff') } />
+              {/* <meshPhongMaterial color={ (plane?.color ? plane.color : '#ffffff') } /> */}
+              <meshPhongMaterial color={ '#ffffff' } />
             </mesh>
           )
         }
