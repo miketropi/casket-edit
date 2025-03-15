@@ -157,20 +157,22 @@ export default function DesignImage({ plane }) {
     });
   };
 
-  const handleDragMove = (e, index) => {
+  const handleDragMove = (e, index, cb) => {
     const elements = [...layoutData.elements];
     elements[index] = {
       ...elements[index],
       x: e.target.x(),
       y: e.target.y()
     };
-    setLayoutData({ ...layoutData, elements });
+    // setLayoutData({ ...layoutData, elements });
+    cb && cb(e, elements);
   };
 
-  const handleTransform = (e, index) => {
+  const handleTransform = (e, index, cb) => {
     const node = e.target;
     const scaleX = node.scaleX();
     const scaleY = node.scaleY();
+    
     // console.log(node);
     node.scaleX(1);
     node.scaleY(1);
@@ -194,7 +196,8 @@ export default function DesignImage({ plane }) {
       // elements[index].fontSize = elements[index].fontSize * scaleY;
     }
 
-    setLayoutData({ ...layoutData, elements });
+    // setLayoutData({ ...layoutData, elements });
+    cb && cb(e, elements);
   };
 
   /**
@@ -210,8 +213,12 @@ export default function DesignImage({ plane }) {
       return mode === 'edit' ? {
         __mode: mode,
         opacity: 1,
-        onDragMove: (e) => handleDragMove(e, index),
-        onHandleTransform: (e) => handleTransform(e, index),
+        onDragMove: (e) => handleDragMove(e, index, (e, elements) => {
+          setLayoutData({ ...layoutData, elements });
+        }),
+        onHandleTransform: (e) => handleTransform(e, index, (e, elements) => {
+          setLayoutData({ ...layoutData, elements });
+        }),
         onSelect: (id) => { setSelectedId(id); },
         isSelected: selectedId === `element-${element.id}`,
       } : {

@@ -81,7 +81,7 @@ export default function KonvaImageOverlay({ imagePlaceholder, imageOverlay, canv
     const overlayNode = overlayRef.current;
     overlayNode.getLayer().batchDraw();
   })
-
+  // console.log('1')
   return <>
     {
       __status === 'loaded' && (

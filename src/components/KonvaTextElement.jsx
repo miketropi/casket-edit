@@ -12,6 +12,7 @@ export default function KonvaTextElement({ __mode, element, opacity, onDragMove,
         families: [font]
       },
       active: function() {
+        // console.log('active', font)
         textRef.current.fontFamily(font);
         textRef.current.getLayer().batchDraw();
       }
@@ -19,6 +20,7 @@ export default function KonvaTextElement({ __mode, element, opacity, onDragMove,
   }
 
   useEffect(() => {
+    // console.log('useEffect', element.fontFamily)
     loadFont(element.fontFamily);
   }, [element.fontFamily]);
 
@@ -37,7 +39,7 @@ export default function KonvaTextElement({ __mode, element, opacity, onDragMove,
     attributes.onDragMove = onDragMove;
   }
   if(onHandleTransform) {
-    attributes.onTransform = onHandleTransform;
+    attributes.onTransformEnd = onHandleTransform;
   }
   if(onSelect) {
     attributes.onClick = e => {
