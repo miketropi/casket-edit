@@ -13,7 +13,7 @@ export default function KonvaImageElement({ __mode, element, opacity, onDragMove
     attributes.onDragMove = onDragMove;
   }
   if(onHandleTransform) {
-    attributes.onTransform = onHandleTransform;
+    attributes.onTransformEnd = onHandleTransform;
   }
   if(onSelect) {
     attributes.onClick = e => {
