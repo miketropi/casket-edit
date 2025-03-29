@@ -26,8 +26,8 @@ export default function CanvasPreview() {
   return (
     <ThreeCanvas>
       <color attach="background" args={['#f0f0f0']} />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 10]} />
+      <ambientLight intensity={1} />
+      <directionalLight position={[5, 5, 5]} />
       <Environment preset="sunset" intensity={1} /> 
 
       <ImageBackgroundScene />
