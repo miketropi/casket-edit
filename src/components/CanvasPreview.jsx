@@ -28,6 +28,7 @@ export default function CanvasPreview() {
       <color attach="background" args={['#f0f0f0']} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 10]} />
+      <Environment preset="sunset" intensity={1} /> 
 
       <ImageBackgroundScene />
 

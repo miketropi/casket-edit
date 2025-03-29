@@ -20,11 +20,18 @@ export default function DecalPlane({ decalAtts, decalImage }) {
       scale={ scale }
       // debug={ 1 }
     >
-      <meshBasicMaterial
+      <meshStandardMaterial
+        map={decalTexture}
+        metalness={0.7}
+        roughness={0.2}
+      />
+      
+
+      {/* <meshBasicMaterial
         map={ decalTexture }
         polygonOffset
         polygonOffsetFactor={ -2 } // The material should take precedence over the original
-      />
+      /> */}
     </Decal>
   )
 }
