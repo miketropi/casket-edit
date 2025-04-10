@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 export default function DecalPlane({ decalAtts, decalImage }) {
   const decalTexture = useTexture(decalImage);
+  // decalTexture.side = THREE.FrontSide;
 
   // decalTexture.center.set(0.5,0.5);
   // decalTexture.flipY = false;
@@ -32,8 +33,11 @@ export default function DecalPlane({ decalAtts, decalImage }) {
 
       <meshBasicMaterial
         map={ decalTexture }
-        polygonOffset
-        polygonOffsetFactor={ -2 } // The material should take precedence over the original
+        transparent={ true }
+        depthTest={ true }
+        depthWrite={ false }
+        polygonOffset={ true }
+        polygonOffsetFactor={ -4 }
         toneMapped={false}
       />
     </Decal>
