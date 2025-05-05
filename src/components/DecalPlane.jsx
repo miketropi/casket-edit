@@ -33,12 +33,15 @@ export default function DecalPlane({ decalAtts, decalImage }) {
 
       <meshBasicMaterial
         map={ decalTexture }
-        transparent={ true }
+        // transparent={ true }
         depthTest={ true }
         depthWrite={ false }
         polygonOffset={ true }
         polygonOffsetFactor={ -4 }
         toneMapped={false}
+
+        metalness={1}
+        roughness={1}
       />
     </Decal>
   )
