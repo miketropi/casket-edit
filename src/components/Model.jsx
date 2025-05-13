@@ -55,11 +55,10 @@ function Model(atts) {
               {/* <meshPhongMaterial color={ (plane?.color ? plane.color : '#ffffff') } /> */}
               <meshPhongMaterial 
                 color={ '#ffffff' } 
-                // transparent={ false }
-                // depthTest={ true }
-                // depthWrite={ false }
-                // polygonOffset={ true }
-                // polygonOffsetFactor={ -1 }
+                castShadow
+                receiveShadow
+                shadowSide={THREE.FrontSide}
+                shadowBias={-0.0001}
               />
             </mesh>
           )
@@ -106,9 +105,8 @@ function Model(atts) {
     <group { ...atts }>
       <primitive 
         object={ scene } 
-        // onPointerOver={handleHover} 
-        // onPointerOut={(e) => handleHover(e, false)} 
-        // onClick={handleClick} 
+        castShadow
+        receiveShadow
       />
       { decals }
     </group>
