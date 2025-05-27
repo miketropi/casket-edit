@@ -24,12 +24,19 @@ function ShadowCameraHelper({ light }) {
   );
 }
 
-export default function CanvasPreview() {
+export default function CanvasPreview({
+  ambientIntensity = 0.2,
+  mainIntensity = 0.2,
+  secondaryIntensity = 0,
+  bottomIntensity = 0.2,
+  bottomColor = '#ffeedd',
+  envPreset = 'warehouse',
+  envIntensity = 0.2
+}) {
   const OrbitControls_Ref = useRef();
   const { mainLoaded, developMode } = useAppStore();
   const mainLightRef = useRef();
   const secondaryLightRef = useRef();
-
   useEffect(() => {
     if( !mainLoaded ) return;
     
@@ -41,11 +48,11 @@ export default function CanvasPreview() {
   return (
     <ThreeCanvas shadows>
       <color attach="background" args={['#f0f0f0']} />
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={ambientIntensity} />
       <directionalLight 
         ref={mainLightRef}
         position={[5, 5, 5]} 
-        intensity={0.5}
+        intensity={mainIntensity}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-far={50}
@@ -55,10 +62,10 @@ export default function CanvasPreview() {
         shadow-camera-bottom={-10}
         shadow-bias={-0.0001}
       />
-      <directionalLight 
+      {/* <directionalLight 
         ref={secondaryLightRef}
         position={[5, 0, 0]}
-        intensity={0.5}
+        intensity={secondaryIntensity}
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-far={50}
@@ -66,8 +73,14 @@ export default function CanvasPreview() {
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
+      /> */}
+      <directionalLight
+        position={[0, -2, 5]}
+        intensity={bottomIntensity}
+        color={bottomColor}
+        castShadow={false}
       />
-      <Environment preset="apartment" intensity={1} /> 
+      <Environment preset={envPreset} intensity={envIntensity} />
 
       {/* Shadow Camera Helpers - Only show in development mode */}
       {developMode && mainLightRef.current && <ShadowCameraHelper light={mainLightRef.current} />}

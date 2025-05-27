@@ -17,12 +17,20 @@ export default function Design() {
   const [shareMode, setShareMode] = useState(false);
   const [shareData, setShareData] = useState(null);
   const [savePostId, setSavePostId] = useState(null);
-
+  const { developMode } = useAppStore();
   const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed, mainLoaded } = useAppStore();
   const [loading, setLoading] = useState(false);
   const [saveDesign, setSaveDesign] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
   const [tipsModal, setTipsModal] = useState(false);
+  // State for each light/environment property
+  const [ambientIntensity, setAmbientIntensity] = useState(0.5);
+  const [mainIntensity, setMainIntensity] = useState(0.5);
+  const [secondaryIntensity, setSecondaryIntensity] = useState(0.1);
+  const [bottomIntensity, setBottomIntensity] = useState(0.2);
+  const [bottomColor, setBottomColor] = useState('#ffeedd');
+  const [envPreset, setEnvPreset] = useState('warehouse');
+  const [envIntensity, setEnvIntensity] = useState(0.2);
   const getCasketData = async () => {
     const response = await apiInstance.getDesignData(id);
     if(response?.casket_design_data) {
@@ -101,7 +109,15 @@ export default function Design() {
     }
     
     <div className="preview-area">
-      <CanvasPreview />
+      <CanvasPreview
+        ambientIntensity={ambientIntensity}
+        mainIntensity={mainIntensity}
+        secondaryIntensity={secondaryIntensity}
+        bottomIntensity={bottomIntensity}
+        bottomColor={bottomColor}
+        envPreset={envPreset}
+        envIntensity={envIntensity}
+      />
     </div>
     <div className="control-area">
       <div className="control-area-inner">
@@ -210,6 +226,30 @@ export default function Design() {
             </>
           )
         }
+        {developMode && (
+          <div className="lighting-controls">
+            <div style={{ display: 'block', marginBottom: 8 }}>Ambient Intensity <input type="range" min="0" max="2" step="0.01" value={ambientIntensity} onChange={e => setAmbientIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Main Light Intensity <input type="range" min="0" max="2" step="0.01" value={mainIntensity} onChange={e => setMainIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Secondary Light Intensity <input type="range" min="0" max="2" step="0.01" value={secondaryIntensity} onChange={e => setSecondaryIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Bottom Light Intensity <input type="range" min="0" max="2" step="0.01" value={bottomIntensity} onChange={e => setBottomIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Bottom Light Color <input type="color" value={bottomColor} onChange={e => setBottomColor(e.target.value)} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Environment Preset
+              <select value={envPreset} onChange={e => setEnvPreset(e.target.value)}>
+                <option value="apartment">apartment</option>
+                <option value="city">city</option>
+                <option value="dawn">dawn</option>
+                <option value="forest">forest</option>
+                <option value="lobby">lobby</option>
+                <option value="night">night</option>
+                <option value="park">park</option>
+                <option value="studio">studio</option>
+                <option value="sunset">sunset</option>
+                <option value="warehouse">warehouse</option>
+              </select>
+            </div>
+            <div style={{ display: 'block', marginBottom: 8 }}>Environment Intensity <input type="range" min="0" max="2" step="0.01" value={envIntensity} onChange={e => setEnvIntensity(Number(e.target.value))} /></div>
+          </div>
+        )}
       </div>
     </div>
   </div>
