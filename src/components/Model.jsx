@@ -16,7 +16,7 @@ function Model(atts) {
     metalness: 1,
     roughness: 0, // Slight roughness for realistic glass
     transparent: true,
-    flatShading: true,
+    flatShading: false, // Use smooth shading for better light blending
     opacity: 0.4, // Fully opaque when using transmission
     // transmission: 1, // Enables real transparency (like glass)
     ior: 1.45, // Index of refraction (glass is ~1.45)

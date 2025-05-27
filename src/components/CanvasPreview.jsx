@@ -45,7 +45,7 @@ export default function CanvasPreview() {
       <directionalLight 
         ref={mainLightRef}
         position={[5, 5, 5]} 
-        intensity={1.5}
+        intensity={0.5}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-far={50}
@@ -57,7 +57,7 @@ export default function CanvasPreview() {
       />
       <directionalLight 
         ref={secondaryLightRef}
-        position={[-5, 3, -5]} 
+        position={[5, 0, 0]}
         intensity={0.5}
         castShadow
         shadow-mapSize={[1024, 1024]}
@@ -67,7 +67,7 @@ export default function CanvasPreview() {
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
       />
-      <Environment preset="sunset" intensity={0.5} /> 
+      <Environment preset="apartment" intensity={1} /> 
 
       {/* Shadow Camera Helpers - Only show in development mode */}
       {developMode && mainLightRef.current && <ShadowCameraHelper light={mainLightRef.current} />}
