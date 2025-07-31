@@ -11,6 +11,7 @@ import ThankYou from '../components/ThankYou';
 import Loading from '../components/Loading';
 import { CircleHelp, Save } from 'lucide-react';
 import UsefulTips from '../components/UsefulTips';
+import { lightingDefaults } from '../store/store';
 
 export default function Design() {
   const { id } = useParams();
@@ -24,13 +25,13 @@ export default function Design() {
   const [saveModal, setSaveModal] = useState(false);
   const [tipsModal, setTipsModal] = useState(false);
   // State for each light/environment property
-  const [ambientIntensity, setAmbientIntensity] = useState(0.5);
-  const [mainIntensity, setMainIntensity] = useState(0.5);
-  const [secondaryIntensity, setSecondaryIntensity] = useState(0.1);
-  const [bottomIntensity, setBottomIntensity] = useState(0.2);
-  const [bottomColor, setBottomColor] = useState('#ffeedd');
-  const [envPreset, setEnvPreset] = useState('studio');
-  const [envIntensity, setEnvIntensity] = useState(0.2);
+  const [ambientIntensity, setAmbientIntensity] = useState(lightingDefaults.ambientIntensity);
+  const [mainIntensity, setMainIntensity] = useState(lightingDefaults.mainIntensity);
+  const [secondaryIntensity, setSecondaryIntensity] = useState(lightingDefaults.secondaryIntensity);
+  const [bottomIntensity, setBottomIntensity] = useState(lightingDefaults.bottomIntensity);
+  const [bottomColor, setBottomColor] = useState(lightingDefaults.bottomColor);
+  const [envPreset, setEnvPreset] = useState(lightingDefaults.envPreset);
+  const [envIntensity, setEnvIntensity] = useState(lightingDefaults.envIntensity);
   const getCasketData = async () => {
     const response = await apiInstance.getDesignData(id);
     if(response?.casket_design_data) {

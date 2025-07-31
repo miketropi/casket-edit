@@ -6,6 +6,7 @@ import Model from '../components/Model';
 import { useAppStore } from '../context/AppContext';
 import ImageBackgroundScene from './ImageBackgroundScene';
 import { CameraHelper } from 'three';
+import { lightingDefaults } from '../store/store';
 
 function ShadowCameraHelper({ light }) {
   const helper = useRef();
@@ -25,13 +26,13 @@ function ShadowCameraHelper({ light }) {
 }
 
 export default function CanvasPreview({
-  ambientIntensity = 0.2,
-  mainIntensity = 0.2,
-  secondaryIntensity = 0,
-  bottomIntensity = 0.2,
-  bottomColor = '#ffeedd',
-  envPreset = 'studio',
-  envIntensity = 0.1
+  ambientIntensity = lightingDefaults.ambientIntensity,
+  mainIntensity = lightingDefaults.mainIntensity,
+  secondaryIntensity = lightingDefaults.secondaryIntensity,
+  bottomIntensity = lightingDefaults.bottomIntensity,
+  bottomColor = lightingDefaults.bottomColor,
+  envPreset = lightingDefaults.envPreset,
+  envIntensity = lightingDefaults.envIntensity
 }) {
   const OrbitControls_Ref = useRef();
   const { mainLoaded, developMode } = useAppStore();

@@ -12,13 +12,23 @@ const rotationSetupInit = {
   '__food': [0, 0, 0],              // food
   '__head': [0, 0, 0],              // head
 }
+// Export these defaults for use in other files
+export const lightingDefaults = {
+  ambientIntensity: 0.4,
+  mainIntensity: 0,
+  secondaryIntensity: 0.65,
+  bottomIntensity: 1.35,
+  bottomColor: '#FFFFFF',
+  envPreset: 'city',
+  envIntensity: 1.2,
+};
 
 const defaultProps = {
   version: '1.0.0',
   mainLoaded: false,
   apiInstance,
   name: 'Casket Edit',
-  developMode: true,
+  developMode: false,
   rotationSetupInit,
   planes,
   imagesUsed: [],
@@ -31,6 +41,7 @@ const defaultProps = {
   },
   editElement: [],
   designImageFn__Ref: null,
+  ...lightingDefaults,
 }
 
 export const createAppStore = (initProps) => {
