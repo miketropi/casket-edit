@@ -2,7 +2,14 @@ $primary-color: #2563eb;
 $secondary-color: #1e40af;
 $text-color: #1f2937;
 $background-color: #ffffff;
-
+.lighting-controls{
+  label{
+    display: block;
+  }
+  select, input{
+    width: 100%;
+  }
+}
 .home {
   min-height: 100vh;
   background-color: $background-color;

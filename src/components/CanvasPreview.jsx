@@ -30,8 +30,8 @@ export default function CanvasPreview({
   secondaryIntensity = 0,
   bottomIntensity = 0.2,
   bottomColor = '#ffeedd',
-  envPreset = 'warehouse',
-  envIntensity = 0.2
+  envPreset = 'studio',
+  envIntensity = 0.1
 }) {
   const OrbitControls_Ref = useRef();
   const { mainLoaded, developMode } = useAppStore();
@@ -62,7 +62,7 @@ export default function CanvasPreview({
         shadow-camera-bottom={-10}
         shadow-bias={-0.0001}
       />
-      {/* <directionalLight 
+      <directionalLight 
         ref={secondaryLightRef}
         position={[5, 0, 0]}
         intensity={secondaryIntensity}
@@ -73,7 +73,7 @@ export default function CanvasPreview({
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
-      /> */}
+      />
       <directionalLight
         position={[0, -2, 5]}
         intensity={bottomIntensity}

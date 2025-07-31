@@ -29,7 +29,7 @@ export default function Design() {
   const [secondaryIntensity, setSecondaryIntensity] = useState(0.1);
   const [bottomIntensity, setBottomIntensity] = useState(0.2);
   const [bottomColor, setBottomColor] = useState('#ffeedd');
-  const [envPreset, setEnvPreset] = useState('warehouse');
+  const [envPreset, setEnvPreset] = useState('studio');
   const [envIntensity, setEnvIntensity] = useState(0.2);
   const getCasketData = async () => {
     const response = await apiInstance.getDesignData(id);
@@ -227,13 +227,13 @@ export default function Design() {
           )
         }
         {developMode && (
-          <div className="lighting-controls">
-            <div style={{ display: 'block', marginBottom: 8 }}>Ambient Intensity <input type="range" min="0" max="2" step="0.01" value={ambientIntensity} onChange={e => setAmbientIntensity(Number(e.target.value))} /></div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Main Light Intensity <input type="range" min="0" max="2" step="0.01" value={mainIntensity} onChange={e => setMainIntensity(Number(e.target.value))} /></div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Secondary Light Intensity <input type="range" min="0" max="2" step="0.01" value={secondaryIntensity} onChange={e => setSecondaryIntensity(Number(e.target.value))} /></div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Bottom Light Intensity <input type="range" min="0" max="2" step="0.01" value={bottomIntensity} onChange={e => setBottomIntensity(Number(e.target.value))} /></div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Bottom Light Color <input type="color" value={bottomColor} onChange={e => setBottomColor(e.target.value)} /></div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Environment Preset
+          <div className="lighting-controls" style={{ padding: '0 1em' }}>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Ambient Intensity</label> <input type="range" min="0" max="2" step="0.01" value={ambientIntensity} onChange={e => setAmbientIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Main Light Intensity</label> <input type="range" min="0" max="2" step="0.01" value={mainIntensity} onChange={e => setMainIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Secondary Light Intensity</label> <input type="range" min="0" max="2" step="0.01" value={secondaryIntensity} onChange={e => setSecondaryIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Bottom Light Intensity</label> <input type="range" min="0" max="2" step="0.01" value={bottomIntensity} onChange={e => setBottomIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Bottom Light Color</label> <input type="color" value={bottomColor} onChange={e => setBottomColor(e.target.value)} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Environment Preset</label>
               <select value={envPreset} onChange={e => setEnvPreset(e.target.value)}>
                 <option value="apartment">apartment</option>
                 <option value="city">city</option>
@@ -247,7 +247,7 @@ export default function Design() {
                 <option value="warehouse">warehouse</option>
               </select>
             </div>
-            <div style={{ display: 'block', marginBottom: 8 }}>Environment Intensity <input type="range" min="0" max="2" step="0.01" value={envIntensity} onChange={e => setEnvIntensity(Number(e.target.value))} /></div>
+            <div style={{ display: 'block', marginBottom: 8 }}><label>Environment Intensity</label> <input type="range" min="0" max="2" step="0.01" value={envIntensity} onChange={e => setEnvIntensity(Number(e.target.value))} /></div>
           </div>
         )}
       </div>
