@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import * as THREE from 'three';
 import { Canvas as ThreeCanvas } from '@react-three/fiber';
 import { OrbitControls, Center, Environment } from '@react-three/drei'; 
 import { Suspense } from "react";
@@ -47,7 +48,12 @@ export default function CanvasPreview({
   }, [mainLoaded]);
 
   return (
-    <ThreeCanvas shadows>
+    <ThreeCanvas shadows gl={{
+    antialias: true,
+    outputEncoding: THREE.sRGBEncoding,
+    toneMapping: THREE.ACESFilmicToneMapping,
+    toneMappingExposure: 0.6,
+  }}>
       <color attach="background" args={['#f0f0f0']} />
       <ambientLight intensity={ambientIntensity} />
       <directionalLight 

@@ -49,6 +49,19 @@ function Model(atts) {
         }
 
         let plane = planes.find(p => p.name === child.name);
+
+        if (child.name === "Curve006_-_Lid") {
+          child.material = new THREE.MeshStandardMaterial({
+            color: plane.color || "#ffffff",
+            metalness: 0.05,      // Lower metalness for less reflection
+            roughness: 0.35,      // Lower roughness for more vibrant color
+            transparent: false,
+            opacity: 1,
+            envMapIntensity: 0.7, // Lower if environment is bright
+          });
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
         if (plane) {
           decalElements.push(
             <mesh 
