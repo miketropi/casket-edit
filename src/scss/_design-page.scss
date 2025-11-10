@@ -12,90 +12,23 @@
     left: 0;
     padding-left: 330px;
     box-sizing: border-box;
-    @media (max-width: 768px) {
-      padding-left: 0;
-    }
   }
   .control-area {
     position: fixed;
+    padding: 1em;
     left: 0;
     top: 0;
     height: 100%;
-    width: 320px; // match inner width + padding
     box-sizing: border-box;
-    z-index: 40;
-    transform: translateX(0);
-    transition: transform 360ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms;
-    will-change: transform;
-
-    &.is-closed.is-mobile {
-      transform: translateX(-105%);
-      pointer-events: none;
-      box-shadow: none;
-    }
-
-    &.is-open {
-      transform: translateX(0);
-      pointer-events: auto;
-    }
-
-    /* Desktop: always visible and no translate */
-    &.is-desktop {
-      transform: translateX(0) !important;
-      pointer-events: auto;
-      box-shadow: none;
-    }
 
     .control-area-inner {
-      width: 300px; // keep your existing inner width
-      margin: 10px;
-
+      width: 300px;
+      position: relative;
       height: 100%;
       background: white;
       border-radius: 10px;
       border: solid 1px #e4e4e4;
     }
-  }
-
-  /* Toggle button styles */
-  .control-toggle {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 60;
-    display: none; // show only on mobile via media query
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.12);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    cursor: pointer;
-    transition: transform 300ms cubic-bezier(.2,.9,.2,1), opacity 200ms;
-
-    &.is-open {
-      display: none;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .control-toggle { display: flex; }
-
-    .preview-area {
-      padding-left: 0 !important;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .control-area {
-      position: fixed;
-      left: 0;
-      transform: none !important;
-      pointer-events: auto;
-    }
-    .control-toggle { display: none; }
   }
 }
 

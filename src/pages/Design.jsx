@@ -9,7 +9,7 @@ import Modal from '../components/Modal';
 import UserInfoForm from '../components/UserInfoForm';
 import ThankYou from '../components/ThankYou';
 import Loading from '../components/Loading';
-import { CircleHelp, Save, Menu, X } from 'lucide-react';
+import { CircleHelp, Save } from 'lucide-react';
 import UsefulTips from '../components/UsefulTips';
 import { lightingDefaults } from '../store/store';
 
@@ -102,27 +102,6 @@ export default function Design() {
     }
   }
 
-  // responsive control-area toggle state
-  const [isControlOpen, setIsControlOpen] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return window.innerWidth >= 768; // open by default on desktop, closed on mobile
-  });
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth < 768;
-  });
-
-  useEffect(() => {
-    function handleResize() {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (!mobile) setIsControlOpen(true); // always open on desktop
-      if (mobile) setIsControlOpen(false); // default closed on mobile when resizing into mobile
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return <div className="design-page">
     {
       mainLoaded == false && (
@@ -130,19 +109,7 @@ export default function Design() {
       )
     }
     
-    <div className="preview-area" style={{ position: 'relative' }}>
-      {/* Mobile toggle button (icon only). show only on mobile when sidebar is closed */}
-      <button
-        type="button"
-        aria-expanded={isControlOpen}
-        aria-controls="control-area"
-        onClick={() => setIsControlOpen(v => !v)}
-        className={`control-toggle ${isControlOpen ? 'is-open' : 'is-closed'} ${isMobile ? 'is-mobile' : 'is-desktop'}`}
-        aria-label="Open controls"
-      >
-        <Menu size={18} />
-      </button>
-
+    <div className="preview-area">
       <CanvasPreview
         ambientIntensity={ambientIntensity}
         mainIntensity={mainIntensity}
@@ -153,37 +120,8 @@ export default function Design() {
         envIntensity={envIntensity}
       />
     </div>
-
-    <div
-      id="control-area"
-      className={`control-area ${isControlOpen ? 'is-open' : 'is-closed'} ${isMobile ? 'is-mobile' : 'is-desktop'}`}
-      aria-hidden={!isControlOpen && isMobile}
-    >
+    <div className="control-area">
       <div className="control-area-inner">
-        {/* Close button inside sidebar (top-right). hide on desktop if undesired */}
-        <button
-          type="button"
-          aria-label="Close controls"
-          onClick={() => setIsControlOpen(false)}
-          style={{
-            position: 'absolute',
-            top: 8,
-            right: 8,
-            width: 36,
-            height: 36,
-            display: isMobile ? 'flex' : 'none',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 6,
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            zIndex: 40
-          }}
-        >
-          <X size={18} />
-        </button>
-
         <div className="heading-container">
           {
             (() => {
