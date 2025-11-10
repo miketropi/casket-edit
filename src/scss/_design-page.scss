@@ -12,6 +12,9 @@
     left: 0;
     padding-left: 330px;
     box-sizing: border-box;
+    @media (max-width: 768px) {
+      padding-left: 0;
+    }
   }
   .control-area {
     position: fixed;
@@ -21,6 +24,9 @@
     height: 100%;
     box-sizing: border-box;
 
+    @media (max-width: 768px) {
+      display: none;
+    }
     .control-area-inner {
       width: 300px;
       position: relative;
