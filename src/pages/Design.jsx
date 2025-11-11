@@ -17,6 +17,7 @@ export default function Design() {
   const { id } = useParams();
   const [shareMode, setShareMode] = useState(false);
   const [shareData, setShareData] = useState(null);
+  const [planesApplied, setPlanesApplied] = useState(false);
   const [savePostId, setSavePostId] = useState(null);
   const { developMode } = useAppStore();
   const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed, mainLoaded } = useAppStore();
@@ -38,15 +39,18 @@ export default function Design() {
     setIsFetching(true);
     const response = await apiInstance.getDesignData(id);
     if(response?.casket_design_data) {
+      // Apply planes first, then mark applied and set share metadata
+      setPlanes(response.casket_design_data);
+      setPlanesApplied(true);
       setShareData(response);
       setShareMode(true);
-      setPlanes(response.casket_design_data)
     }
     setIsFetching(false);
   }
 
   useEffect(() => {
     if(id) {
+      setPlanesApplied(false);
       getCasketData()
     }
   }, [id]);
@@ -106,8 +110,8 @@ export default function Design() {
     }
   }
 
-  // Only render after loading correct design
-  if (id && (isFetching || !shareData)) {
+  // Only render after loading correct design and applying planes to store
+  if (id && (isFetching || !shareData || (shareMode && !planesApplied))) {
     return <Loading />;
   }
 
