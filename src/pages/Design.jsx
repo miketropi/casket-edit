@@ -119,7 +119,7 @@ export default function Design() {
   }
 
   // Only render after loading correct design and applying planes to store
-  if (id && (isFetching || !shareData || (shareMode && !planesApplied) || !minDelayDone)) {
+  if (id && (isFetching || !shareData || (shareMode && !planesApplied))) {
     return <Loading />;
   }
 
