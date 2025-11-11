@@ -18,6 +18,7 @@ export default function Design() {
   const [shareMode, setShareMode] = useState(false);
   const [shareData, setShareData] = useState(null);
   const [planesApplied, setPlanesApplied] = useState(false);
+  const [minDelayDone, setMinDelayDone] = useState(false);
   const [savePostId, setSavePostId] = useState(null);
   const { developMode } = useAppStore();
   const { version, planes, setPlanes, updatePlane, onSaveDesign, decalsImageDesign, apiInstance, imagesUsed, mainLoaded } = useAppStore();
@@ -53,6 +54,13 @@ export default function Design() {
       setPlanesApplied(false);
       getCasketData()
     }
+  }, [id]);
+
+  // Ensure the loading UI remains for at least 3 seconds on initial/fetch transitions
+  useEffect(() => {
+    setMinDelayDone(false);
+    const timer = setTimeout(() => setMinDelayDone(true), 3000);
+    return () => clearTimeout(timer);
   }, [id]);
 
   useEffect(() => {
@@ -111,13 +119,13 @@ export default function Design() {
   }
 
   // Only render after loading correct design and applying planes to store
-  if (id && (isFetching || !shareData || (shareMode && !planesApplied))) {
+  if (id && (isFetching || !shareData || (shareMode && !planesApplied) || !minDelayDone)) {
     return <Loading />;
   }
 
   return <div className="design-page">
     {
-      mainLoaded == false && (
+      (mainLoaded == false || !minDelayDone) && (
         <Loading />
       )
     }
