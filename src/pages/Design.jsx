@@ -32,13 +32,17 @@ export default function Design() {
   const [bottomColor, setBottomColor] = useState(lightingDefaults.bottomColor);
   const [envPreset, setEnvPreset] = useState(lightingDefaults.envPreset);
   const [envIntensity, setEnvIntensity] = useState(lightingDefaults.envIntensity);
+  const [isFetching, setIsFetching] = useState(false);
+
   const getCasketData = async () => {
+    setIsFetching(true);
     const response = await apiInstance.getDesignData(id);
     if(response?.casket_design_data) {
       setShareData(response);
       setShareMode(true);
       setPlanes(response.casket_design_data)
     }
+    setIsFetching(false);
   }
 
   useEffect(() => {
@@ -100,6 +104,11 @@ export default function Design() {
     } else {
       alert('Error saving design, please try again!!!');
     }
+  }
+
+  // Only render after loading correct design
+  if (id && (isFetching || !shareData)) {
+    return <Loading />;
   }
 
   return <div className="design-page">
