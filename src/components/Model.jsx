@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { useGLTF } from '@react-three/drei';
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo, useLayoutEffect } from "react";
 import { useAppStore } from '../context/AppContext';
 import DecalPlane from './DecalPlane';
 
@@ -36,7 +36,7 @@ function Model(atts) {
   const meshRefs = useRef({});
   const [decals, setDecals] = useState([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const decalElements = [];
 
     scene.traverse((child) => {
@@ -63,20 +63,26 @@ function Model(atts) {
           child.receiveShadow = true;
         }
         if (plane) {
+          // Hide original mesh to avoid double-rendering
+          child.visible = false;
+          // Rebuild a mesh using child's geometry and transforms so visibility of original doesn't affect our copy
           decalElements.push(
-            <mesh 
-              key={child.uuid} 
-              {...child} 
-              renderOrder={0} // Ensure base objects render first
+            <mesh
+              key={child.uuid}
+              geometry={child.geometry}
+              position={child.position}
+              rotation={child.rotation}
+              scale={child.scale}
+              renderOrder={0}
             >
               {plane.decalImage && (
-                <DecalPlane 
+                <DecalPlane
                   decalAtts={{ ...plane }}
                   decalImage={plane.decalImage}
                 />
               )}
-              <meshPhongMaterial 
-                color={'#ffffff'} 
+              <meshPhongMaterial
+                color={plane.color || '#ffffff'}
                 castShadow
                 receiveShadow
                 shadowSide={THREE.FrontSide}
