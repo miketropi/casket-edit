@@ -37,7 +37,16 @@
     }
   }
 }
-
+.iframe-mode{
+  .design-page {
+    .control-area {
+      display: none;
+    }
+    .preview-area {
+      padding-left: 0 !important;
+    }
+  }
+}
 .design-share-container {
   // padding: 0 1em 1em;
 

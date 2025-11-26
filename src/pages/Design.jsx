@@ -67,6 +67,28 @@ export default function Design() {
     console.log(version);
   }, [version]);
 
+  // Only add the class when a specific design is loaded (i.e. /design/[id]).
+  // Also ensure the class is removed when navigating away (for example to
+  // /design without an id).
+  useEffect(() => {
+    // If there's no id, ensure the class is removed and do nothing else.
+
+    let added = false;
+    try {
+      const isInIframe = window.self !== window.top;
+      if (isInIframe && id) {
+        document.body.classList.add('iframe-mode');
+        added = true;
+      }
+    } catch (err) {
+      
+    }
+
+    return () => {
+      if (added) document.body.classList.remove('iframe-mode');
+    };
+  }, [id]);
+
    const AccordionItems = planes.map((plane) => ({
     title: plane.label,
     content: <PlaneControl plane={ plane } onUpdate={ (updatedPlane) => {
