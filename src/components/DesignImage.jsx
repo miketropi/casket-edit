@@ -347,7 +347,7 @@ export default function DesignImage({ plane }) {
       }
     </DesignImageToolBar>
     <div ref={refContainer} style={{ lineHeight: 0, borderRadius: '6px', overflow: 'hidden', width: '100%', height: '560px', border: '1px solid #e0e0e0', position: 'relative' }}>
-      <div className="__control-background-color" style={{ position: 'absolute', top: `10px`, left: `10px`, zIndex: 1000 }}>
+      <div className="__control-background-color" style={{ position: 'absolute', top: `10px`, right: `10px`, zIndex: 1000 }}>
         <ColorPicker
           label="Background Color"
           value={ plane.color }
